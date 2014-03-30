@@ -1,4 +1,9 @@
-
+CREATE TABLE users (
+            user_id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
+            user_name VARCHAR(50) NOT NULL,
+            password VARCHAR(50) NOT NULL,
+            CONSTRAINT user_pk PRIMARY KEY ( user_id )
+);
 
 CREATE TABLE exam (
         exam_id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -37,8 +42,8 @@ CREATE TABLE question_option (
         CONSTRAINT question_option_pk PRIMARY KEY ( option_id)
 );
 
-ALTER TABLE exam ADD CONSTRAINT exam_fk_question FOREIGN KEY ( exam_id ) REFERENCES exam_question ( exam_id );
-ALTER TABLE question ADD CONSTRAINT question_fk_exam FOREIGN KEY ( question_id ) REFERENCES exam_question ( question_id );
+ALTER TABLE exam_question ADD CONSTRAINT exam_fk_question FOREIGN KEY ( exam_id ) REFERENCES exam( exam_id );
+ALTER TABLE exam_question ADD CONSTRAINT question_fk_exam FOREIGN KEY ( question_id ) REFERENCES question ( question_id );
 
 ALTER TABLE question ADD CONSTRAINT question_fk_question_type FOREIGN KEY ( type_id ) REFERENCES question_type ( type_id );
 ALTER TABLE question ADD CONSTRAINT question_fk_option FOREIGN KEY ( option_id ) REFERENCES question_option ( option_id );
