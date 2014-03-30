@@ -5,14 +5,15 @@ CREATE TABLE exam (
         title VARCHAR(50) NOT NULL,
         description VARCHAR(255),
         exam_date DATE NOT NULL,
-        duration TIME.
+        duration TIME,
         CONSTRAINT exam_pk PRIMARY KEY ( exam_id )
 );
 
 CREATE TABLE exam_question (
+        exam_question_id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
         exam_id INTEGER NOT NULL,
-        question_id INTEGER NOT NULL
-        CONSTRAINT exam_question_pk  PRIMARY KEY ( exam_id, question_id )
+        question_id INTEGER NOT NULL,
+        CONSTRAINT exam_question_pk  PRIMARY KEY ( exam_question_id )
 );
 
 CREATE TABLE question (
@@ -26,7 +27,7 @@ CREATE TABLE question (
 CREATE TABLE question_type (
         type_id INTEGER NOT NULL,
         description VARCHAR(50) NOT NULL,
-        CONSTRAINT question_type_pk PRIMARY KEY (status_id)
+        CONSTRAINT question_type_pk PRIMARY KEY ( type_id)
 );
 
 CREATE TABLE question_option (
@@ -36,7 +37,7 @@ CREATE TABLE question_option (
         CONSTRAINT question_option_pk PRIMARY KEY ( option_id)
 );
 
-ALTER TABLE exam_question ADD CONSTRAINT exam_fk_question FOREIGN KEY ( exam_id ) REFERENCES exam_question ( exam_id );
+ALTER TABLE exam ADD CONSTRAINT exam_fk_question FOREIGN KEY ( exam_id ) REFERENCES exam_question ( exam_id );
 ALTER TABLE question ADD CONSTRAINT question_fk_exam FOREIGN KEY ( question_id ) REFERENCES exam_question ( question_id );
 
 ALTER TABLE question ADD CONSTRAINT question_fk_question_type FOREIGN KEY ( type_id ) REFERENCES question_type ( type_id );
