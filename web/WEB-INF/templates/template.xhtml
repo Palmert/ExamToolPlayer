@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+         <h:outputStylesheet name="./css/stripe.css"/>
+         <meta name="author" content="Thom Palmer" />
+        <title>IPv4 Calculator (JSF)</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <h2>
+    <h:outputText value="IPv4 Calculator (JSF)" />
+</h2>
+        </div>
+        <div>
+            <div id="left">
+                <h:form id="navigationForm">
+    <h:commandLink id="indexLink"
+                   action="/views/brief?faces-redirect=true"
+                   title="Home"
+                   value="Brief" />
+    <p />
+
+    <h:commandLink
+id="environmentLink"
+action="/views/detail?faces-redirect=true"
+value="Detail"
+    />
+    <p />
+        <h:commandLink
+id="propertiesLink"
+action="/views/options?faces-redirect=true"
+value="Options"
+    />
+    <p />
+    <h:commandLink id="aboutLink"
+                   action="/about?faces-redirect=true"
+                   title="About"
+                   value="About" />
+</h:form>
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+        <div id="bottom">
+           <h6>
+   Thom Palmer (palm0116) - Winter 2014
+</h6>
+        </div>
+
+    </h:body>
+
+</html>
