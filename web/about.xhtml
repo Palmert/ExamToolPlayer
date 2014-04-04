@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    Document   : about
+    Created on : January 24, 2014
+    Author     : Thom Palmer
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+    
+    <body>
+        
+        <ui:composition template="./WEB-INF/templates/template.xhtml">
+            
+            <ui:define name="content">
+                <h:panelGrid border="3" columns="2">
+                    <h:outputLabel id="courseLabel"
+                                   for="course"
+                                   value="Course" />
+                    <h:outputText id="course"
+                                  value="CST8218 - Web Application Programming (WAP)" />
+                    <h:outputLabel id="professorLabel"
+                                   for="professor"
+                                   value="Professor" />
+                    <h:outputLink value="mailto:elliotc@AlgonquinCollege.com">
+                        <h:outputText id="professor" value="elliotc@AlgonquinCollege.com" />
+                    </h:outputLink>
+                    <h:outputLabel id="studentNameLabel"
+                                   for="studentName"
+                                   value="Student Name" />
+                    <h:outputText id="studentName"
+                                  value="Thom Palmer and Christopher Whitten" />
+                    <h:outputLabel id="studentNumberLabel"
+                                   for="studentNumber"
+                                   value="Student Number" />
+                    <h:outputText id="studentNumber"
+                                  value="040 713 234 - 040 611 350" />
+                    <h:outputLabel id="studentUsernameLabel"
+                                   for="studentUsername"
+                                   value="Student Username" />
+                    <h:outputText id="studentUsername"
+                                  value="palm0116 - whit0536" />
+                    <h:outputLabel id="studentEmailLabel"
+                                   for="studentEmail"
+                                   value="Student Email" />
+                    <h:outputLink value="mailto:palm0116@algonquinlive.com">
+                        <h:outputText id="studentEmail" value="palm0116@algonquinlive.com" />
+                    </h:outputLink>
+                </h:panelGrid>
+            </ui:define>
+
+        </ui:composition>
+        
+    </body>
+</html>

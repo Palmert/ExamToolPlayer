@@ -10,37 +10,26 @@
         <h:outputStylesheet name="./css/cssLayout.css"/>
          <h:outputStylesheet name="./css/stripe.css"/>
          <meta name="author" content="Thom Palmer" />
-        <title>IPv4 Calculator (JSF)</title>
+        <title>Exam Tool Player</title>
     </h:head>
 
     <h:body>
 
         <div id="top">
             <h2>
-    <h:outputText value="IPv4 Calculator (JSF)" />
+    <h:outputText value="Exam Tool Player" />
 </h2>
         </div>
         <div>
             <div id="left">
                 <h:form id="navigationForm">
-    <h:commandLink id="indexLink"
-                   action="/views/brief?faces-redirect=true"
-                   title="Home"
-                   value="Brief" />
+    <h:commandLink id="longLink"
+                   action="/views/index?faces-redirect=true"
+                   title="Login"
+                   value="Login" />
     <p />
 
-    <h:commandLink
-id="environmentLink"
-action="/views/detail?faces-redirect=true"
-value="Detail"
-    />
-    <p />
-        <h:commandLink
-id="propertiesLink"
-action="/views/options?faces-redirect=true"
-value="Options"
-    />
-    <p />
+ 
     <h:commandLink id="aboutLink"
                    action="/about?faces-redirect=true"
                    title="About"
