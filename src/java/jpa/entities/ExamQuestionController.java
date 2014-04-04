@@ -2,7 +2,7 @@ package jpa.entities;
 
 import jpa.entities.util.JsfUtil;
 import jpa.entities.util.PaginationHelper;
-import jpa.session.UsersFacade;
+import jpa.session.ExamQuestionFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -17,29 +17,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("usersController")
+@Named("examQuestionController")
 @SessionScoped
-public class UsersController implements Serializable {
+public class ExamQuestionController implements Serializable {
 
-    private Users current;
+    private ExamQuestion current;
     private DataModel items = null;
     @EJB
-    private jpa.session.UsersFacade ejbFacade;
+    private jpa.session.ExamQuestionFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public UsersController() {
+    public ExamQuestionController() {
     }
 
-    public Users getSelected() {
+    public ExamQuestion getSelected() {
         if (current == null) {
-            current = new Users();
+            current = new ExamQuestion();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private UsersFacade getFacade() {
+    private ExamQuestionFacade getFacade() {
         return ejbFacade;
     }
 
@@ -67,13 +67,13 @@ public class UsersController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Users) getItems().getRowData();
+        current = (ExamQuestion) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Users();
+        current = new ExamQuestion();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -81,7 +81,7 @@ public class UsersController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("UsersCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("ExamQuestionCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("resources/Bundle").getString("PersistenceErrorOccured"));
@@ -90,7 +90,7 @@ public class UsersController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Users) getItems().getRowData();
+        current = (ExamQuestion) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -98,7 +98,7 @@ public class UsersController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("UsersUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("ExamQuestionUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("resources/Bundle").getString("PersistenceErrorOccured"));
@@ -107,7 +107,7 @@ public class UsersController implements Serializable {
     }
 
     public String destroy() {
-        current = (Users) getItems().getRowData();
+        current = (ExamQuestion) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -131,7 +131,7 @@ public class UsersController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("UsersDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("ExamQuestionDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("resources/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -187,21 +187,21 @@ public class UsersController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Users getUsers(java.lang.Integer id) {
+    public ExamQuestion getExamQuestion(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Users.class)
-    public static class UsersControllerConverter implements Converter {
+    @FacesConverter(forClass = ExamQuestion.class)
+    public static class ExamQuestionControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UsersController controller = (UsersController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "usersController");
-            return controller.getUsers(getKey(value));
+            ExamQuestionController controller = (ExamQuestionController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "examQuestionController");
+            return controller.getExamQuestion(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -221,11 +221,11 @@ public class UsersController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Users) {
-                Users o = (Users) object;
-                return getStringKey(o.getUserId());
+            if (object instanceof ExamQuestion) {
+                ExamQuestion o = (ExamQuestion) object;
+                return getStringKey(o.getExamQuestionId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Users.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + ExamQuestion.class.getName());
             }
         }
 

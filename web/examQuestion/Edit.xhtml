@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditExamQuestionTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditExamQuestionLabel_examQuestionId}" for="examQuestionId" />
+                    <h:inputText id="examQuestionId" value="#{examQuestionController.selected.examQuestionId}" title="#{bundle.EditExamQuestionTitle_examQuestionId}" required="true" requiredMessage="#{bundle.EditExamQuestionRequiredMessage_examQuestionId}"/>
+                    <h:outputLabel value="#{bundle.EditExamQuestionLabel_questionId}" for="questionId" />
+                    <h:selectOneMenu id="questionId" value="#{examQuestionController.selected.questionId}" title="#{bundle.EditExamQuestionTitle_questionId}" required="true" requiredMessage="#{bundle.EditExamQuestionRequiredMessage_questionId}">
+                        <f:selectItems value="#{questionController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditExamQuestionLabel_examId}" for="examId" />
+                    <h:selectOneMenu id="examId" value="#{examQuestionController.selected.examId}" title="#{bundle.EditExamQuestionTitle_examId}" required="true" requiredMessage="#{bundle.EditExamQuestionRequiredMessage_examId}">
+                        <f:selectItems value="#{examController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{examQuestionController.update}" value="#{bundle.EditExamQuestionSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditExamQuestionViewLink}"/>
+                <br />
+                <h:commandLink action="#{examQuestionController.prepareList}" value="#{bundle.EditExamQuestionShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditExamQuestionIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

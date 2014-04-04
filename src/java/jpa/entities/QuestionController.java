@@ -2,7 +2,7 @@ package jpa.entities;
 
 import jpa.entities.util.JsfUtil;
 import jpa.entities.util.PaginationHelper;
-import jpa.session.UsersFacade;
+import jpa.session.QuestionFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -17,29 +17,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("usersController")
+@Named("questionController")
 @SessionScoped
-public class UsersController implements Serializable {
+public class QuestionController implements Serializable {
 
-    private Users current;
+    private Question current;
     private DataModel items = null;
     @EJB
-    private jpa.session.UsersFacade ejbFacade;
+    private jpa.session.QuestionFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public UsersController() {
+    public QuestionController() {
     }
 
-    public Users getSelected() {
+    public Question getSelected() {
         if (current == null) {
-            current = new Users();
+            current = new Question();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private UsersFacade getFacade() {
+    private QuestionFacade getFacade() {
         return ejbFacade;
     }
 
@@ -67,13 +67,13 @@ public class UsersController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Users) getItems().getRowData();
+        current = (Question) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Users();
+        current = new Question();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -81,7 +81,7 @@ public class UsersController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("UsersCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("QuestionCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("resources/Bundle").getString("PersistenceErrorOccured"));
@@ -90,7 +90,7 @@ public class UsersController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Users) getItems().getRowData();
+        current = (Question) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -98,7 +98,7 @@ public class UsersController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("UsersUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("QuestionUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("resources/Bundle").getString("PersistenceErrorOccured"));
@@ -107,7 +107,7 @@ public class UsersController implements Serializable {
     }
 
     public String destroy() {
-        current = (Users) getItems().getRowData();
+        current = (Question) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -131,7 +131,7 @@ public class UsersController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("UsersDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("resources/Bundle").getString("QuestionDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("resources/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -187,21 +187,21 @@ public class UsersController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Users getUsers(java.lang.Integer id) {
+    public Question getQuestion(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Users.class)
-    public static class UsersControllerConverter implements Converter {
+    @FacesConverter(forClass = Question.class)
+    public static class QuestionControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UsersController controller = (UsersController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "usersController");
-            return controller.getUsers(getKey(value));
+            QuestionController controller = (QuestionController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "questionController");
+            return controller.getQuestion(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -221,11 +221,11 @@ public class UsersController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Users) {
-                Users o = (Users) object;
-                return getStringKey(o.getUserId());
+            if (object instanceof Question) {
+                Question o = (Question) object;
+                return getStringKey(o.getQuestionId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Users.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Question.class.getName());
             }
         }
 

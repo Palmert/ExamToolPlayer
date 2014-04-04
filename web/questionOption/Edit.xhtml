@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditQuestionOptionTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditQuestionOptionLabel_optionId}" for="optionId" />
+                    <h:inputText id="optionId" value="#{questionOptionController.selected.optionId}" title="#{bundle.EditQuestionOptionTitle_optionId}" required="true" requiredMessage="#{bundle.EditQuestionOptionRequiredMessage_optionId}"/>
+                    <h:outputLabel value="#{bundle.EditQuestionOptionLabel_optionText}" for="optionText" />
+                    <h:inputText id="optionText" value="#{questionOptionController.selected.optionText}" title="#{bundle.EditQuestionOptionTitle_optionText}" />
+                    <h:outputLabel value="#{bundle.EditQuestionOptionLabel_optionIsanswer}" for="optionIsanswer" />
+                    <h:inputText id="optionIsanswer" value="#{questionOptionController.selected.optionIsanswer}" title="#{bundle.EditQuestionOptionTitle_optionIsanswer}" required="true" requiredMessage="#{bundle.EditQuestionOptionRequiredMessage_optionIsanswer}"/>
+                    <h:outputLabel value="#{bundle.EditQuestionOptionLabel_questionId}" for="questionId" />
+                    <h:selectOneMenu id="questionId" value="#{questionOptionController.selected.questionId}" title="#{bundle.EditQuestionOptionTitle_questionId}" required="true" requiredMessage="#{bundle.EditQuestionOptionRequiredMessage_questionId}">
+                        <f:selectItems value="#{questionController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{questionOptionController.update}" value="#{bundle.EditQuestionOptionSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditQuestionOptionViewLink}"/>
+                <br />
+                <h:commandLink action="#{questionOptionController.prepareList}" value="#{bundle.EditQuestionOptionShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditQuestionOptionIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

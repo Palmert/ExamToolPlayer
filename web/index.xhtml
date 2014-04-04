@@ -21,17 +21,17 @@
                         <p>&nbsp;</p>
                         <p:outputLabel for="loginName">User Name</p:outputLabel>
                             <br/>
-                            <p:inputText id="loginName" value="${loginController.username}" />
+                        <p:inputText id="loginName" value="${loginController.username}" />
                         <br/>
                         <p:outputLabel for="password">Password</p:outputLabel>
                             <br/>
-                            <p:inputText type="password" id="password" value="${loginController.password}" />
+                        <p:inputText type="password" id="password" value="${loginController.password}" />
                         <br/><br/>
-                        
+
                         <p:commandButton value="Login" action="${loginController.doAuthenticate()}"/></center>
                         <h:messages errorClass="errors" />
                     </h:form>
-                                        
+
 
             </ui:define>
 
@@ -39,6 +39,27 @@
 
         <br />
         <h:link outcome="/users/List" value="Show All Users Items"/>
+        <br />
+        <h:link outcome="/exam/List" value="Show All Exam Items"/>
+        <br />
+        <h:link outcome="/exam/List" value="Show All Exam Items"/>
+        <br />
+        <h:link outcome="/examQuestion/List" value="Show All ExamQuestion Items"/>
+        <br />
+        <h:link outcome="/question/List" value="Show All Question Items"/>
+        <br />
+        <h:link outcome="/questionOption/List" value="Show All QuestionOption Items"/>
+        <br />
+        <h:link outcome="/questionType/List" value="Show All QuestionType Items"/>
+        <br />
+        <h:link outcome="/users/List" value="Show All Users Items"/>
     </body>
+
+
+
+
+
+
+
 
 </html>
