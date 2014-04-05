@@ -16,24 +16,27 @@
 
             <ui:define name="content">
                 <h:form>
-                     <center><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html"
-                       target="_blank">User Login</a>
-                    <p>&nbsp;</p>
+                    <center><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html"
+                               target="_blank">User Login</a>
+                        <p>&nbsp;</p>
+                        <p:outputLabel for="loginName">User Name</p:outputLabel>
+                            <br/>
+                            <p:inputText id="loginName" value="${loginController.username}" />
+                        <br/>
+                        <p:outputLabel for="password">Password</p:outputLabel>
+                            <br/>
+                            <p:inputText type="password" id="password" value="${loginController.password}" />
+                        <br/><br/>
+                        
+                        <p:commandButton value="Login" action="${loginController.doAuthenticate()}"/></center>
+                    </h:form>
 
-                   <p:outputLabel for="loginName">User Name</p:outputLabel>
-                    <br/>
-                    <p:inputText id="loginName" />
-                    <br/>
-                    <p:outputLabel for="password">Password</p:outputLabel>
-                    <br/>
-                    <p:inputText id="password" />
-                    <br/><br/>
-                    <p:commandButton value="Submit"/></center>
-                </h:form>
-                
             </ui:define>
 
         </ui:composition>
 
+        <br />
+        <h:link outcome="/users/List" value="Show All Users Items"/>
     </body>
+
 </html>
