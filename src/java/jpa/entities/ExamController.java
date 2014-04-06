@@ -29,13 +29,14 @@ public class ExamController implements Serializable {
     @EJB
     private jpa.session.ExamFacade ejbFacade;
     private PaginationHelper pagination;
-    private int selectedItemIndex;        
+    private int selectedItemIndex;
     private List<Exam> exams;
-    
-
+    int currentQuestionIndex;
+    private Question currentQuestion;
 
     public ExamController() {
         exams = new ArrayList();
+        //currentQuestionIndex = 0;
     }
 
     public Exam getSelected() {
@@ -45,8 +46,31 @@ public class ExamController implements Serializable {
         }
         return current;
     }
-    
-     
+
+    public void handleTimer() {
+        int curr = current.getDuration().getSeconds();
+        current.getDuration().setSeconds(--curr);
+    }
+
+    public void navigateQuestion(int dir) {
+        //0 = previous
+        if (dir == 0) {
+            if (currentQuestionIndex == 0) {
+                return;
+            }
+            currentQuestionIndex--;
+            getCurrentQuestion();
+            return;
+        }
+        if (dir == 1) {
+            if (currentQuestionIndex == current.getExamQuestionCollection().size()) {
+                return;
+            }
+            currentQuestionIndex++;
+            getCurrentQuestion();
+        }
+    }
+
     /**
      * @return the exams
      */
@@ -60,8 +84,9 @@ public class ExamController implements Serializable {
     public void setExams(List<Exam> exams) {
         this.exams = exams;
         this.exams = ejbFacade.findAllExams();
-        
+
     }
+
     private ExamFacade getFacade() {
         return ejbFacade;
     }
@@ -227,7 +252,23 @@ public class ExamController implements Serializable {
     public void setSelectedItem(Exam selectedItem) {
         this.selectedItem = selectedItem;
         current = selectedItem;
-       
+
+    }
+
+    /**
+     * @return the currentQuestion
+     */
+    public Question getCurrentQuestion() {
+        ExamQuestion eq = (ExamQuestion) selectedItem.getExamQuestionCollection().toArray()[currentQuestionIndex];
+        currentQuestion = eq.getQuestionId();
+        return currentQuestion;
+    }
+
+    /**
+     * @param currentQuestion the currentQuestion to set
+     */
+    public void setCurrentQuestion(Question currentQuestion) {
+        this.currentQuestion = currentQuestion;
     }
 
     @FacesConverter(forClass = Exam.class)

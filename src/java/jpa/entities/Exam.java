@@ -9,6 +9,7 @@ package jpa.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -67,6 +68,8 @@ public class Exam implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "examId")
     private Collection<ExamQuestion> examQuestionCollection;
 
+    private List<Question> questions;
+    
     public Exam() {
     }
 
@@ -152,6 +155,20 @@ public class Exam implements Serializable {
     @Override
     public String toString() {
         return "jpa.entities.Exam[ examId=" + examId + " ]";
+    }
+
+    /**
+     * @return the questions
+     */
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    /**
+     * @param questions the questions to set
+     */
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
     
 }

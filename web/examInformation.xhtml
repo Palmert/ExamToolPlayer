@@ -28,7 +28,7 @@
                             <f:convertDateTime pattern="HH:mm:ss" />
                         </h:outputText>
                     </h:panelGrid>
-                    <p:button value="#{bundle.StartExam}"></p:button>
+                    <p:commandButton  action="examQuestions?faces-redirect=true"  value="#{bundle.StartExam}"></p:commandButton>
                 </h:form>
             </ui:define>
 
