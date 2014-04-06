@@ -255,9 +255,8 @@ public class ExamController implements Serializable {
     public void setSelectedItem(Exam selectedItem) {
         this.selectedItem = selectedItem;
         current = selectedItem;
-
-        getExamQuestionsList().addAll(current.getExamQuestionCollection());
-        
+        examQuestionsList = new ArrayList();
+        getExamQuestionsList().addAll(current.getExamQuestionCollection());    
         
     }
 
@@ -267,7 +266,7 @@ public class ExamController implements Serializable {
      * @return the currentQuestion
      */
     public Question getCurrentQuestion() {
-        ExamQuestion eq = (ExamQuestion) selectedItem.getExamQuestionCollection().toArray()[currentQuestionIndex];
+        ExamQuestion eq = (ExamQuestion) getSelectedItem().getExamQuestionCollection().toArray()[currentQuestionIndex];
         currentQuestion = eq.getQuestionId();
         return currentQuestion;
 }
