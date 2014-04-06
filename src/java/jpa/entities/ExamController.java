@@ -29,8 +29,12 @@ public class ExamController implements Serializable {
     @EJB
     private jpa.session.ExamFacade ejbFacade;
     private PaginationHelper pagination;
-    private int selectedItemIndex;
+    private int selectedItemIndex;        
     private List<Exam> exams;
+   
+    private List<ExamQuestion> examQuestionsList;
+    
+
     int currentQuestionIndex;
     private Question currentQuestion;
 
@@ -84,9 +88,8 @@ public class ExamController implements Serializable {
     public void setExams(List<Exam> exams) {
         this.exams = exams;
         this.exams = ejbFacade.findAllExams();
-
+        
     }
-
     private ExamFacade getFacade() {
         return ejbFacade;
     }
@@ -253,22 +256,33 @@ public class ExamController implements Serializable {
         this.selectedItem = selectedItem;
         current = selectedItem;
 
+ 
+ 
+        setExamQuestionsList((List<ExamQuestion>) new ArrayList());
+        getExamQuestionsList().addAll(current.getExamQuestionCollection());
+        
+        
     }
 
     /**
+     * @return the examQuestionsList
      * @return the currentQuestion
      */
     public Question getCurrentQuestion() {
         ExamQuestion eq = (ExamQuestion) selectedItem.getExamQuestionCollection().toArray()[currentQuestionIndex];
         currentQuestion = eq.getQuestionId();
         return currentQuestion;
+}
+    public List<ExamQuestion> getExamQuestionsList() {
+        return examQuestionsList;
     }
 
+   
     /**
-     * @param currentQuestion the currentQuestion to set
+     * @param examQuestionsList the examQuestionsList to set
      */
-    public void setCurrentQuestion(Question currentQuestion) {
-        this.currentQuestion = currentQuestion;
+    public void setExamQuestionsList(List<ExamQuestion> examQuestionsList) {
+        this.examQuestionsList = examQuestionsList;
     }
 
     @FacesConverter(forClass = Exam.class)
