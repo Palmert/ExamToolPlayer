@@ -35,4 +35,9 @@ INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (5,
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (5,'synapse.',TRUE);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (5,'soma.',FALSE);
 
+INSERT INTO exam (title, description, exam_date, duration) VALUES ('My first exam', 'Test exam', '2014-12-13', '12:12:02' );
 
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 1);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 2);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 3);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 4);

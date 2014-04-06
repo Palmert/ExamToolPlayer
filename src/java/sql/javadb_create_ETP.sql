@@ -2,7 +2,8 @@ CREATE TABLE users (
             user_id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
             user_name VARCHAR(50) NOT NULL,
             password VARCHAR(50) NOT NULL,
-            CONSTRAINT user_pk PRIMARY KEY ( user_id )
+            CONSTRAINT user_pk PRIMARY KEY ( user_id ),
+            UNIQUE(user_name)
 );
 
 CREATE TABLE exam (
@@ -41,6 +42,8 @@ CREATE TABLE question_option (
         option_isAnswer BOOLEAN NOT NULL,
         CONSTRAINT question_option_pk PRIMARY KEY ( option_id)
 );
+
+
 
 ALTER TABLE exam_question ADD CONSTRAINT exam_fk_question FOREIGN KEY ( exam_id ) REFERENCES exam( exam_id );
 ALTER TABLE exam_question ADD CONSTRAINT question_fk_exam FOREIGN KEY ( question_id ) REFERENCES question ( question_id );

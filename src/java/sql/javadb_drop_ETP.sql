@@ -1,6 +1,5 @@
 
 ALTER TABLE question DROP CONSTRAINT question_fk_question_type;
-ALTER TABLE question DROP CONSTRAINT question_fk_option;
 ALTER TABLE question_option DROP CONSTRAINT option_fk_question;
 
 ALTER TABLE exam_question DROP CONSTRAINT exam_fk_question;
