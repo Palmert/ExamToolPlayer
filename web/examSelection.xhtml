@@ -17,7 +17,7 @@
                             <f:selectItems value="#{examController.exams}" var="exam" itemLabel="#{exam.title}"/>                      
                         </p:selectOneMenu>
                         <br/><br/>
-                        <p:commandButton value="Select Exam" action="examInformation?faces-redirect=true" update="examSelection"/>
+                        <p:commandButton value="Select Exam" action="/information?faces-redirect=true" update="examSelection"/>
                     </center>
                 </h:form>
             </ui:define>
