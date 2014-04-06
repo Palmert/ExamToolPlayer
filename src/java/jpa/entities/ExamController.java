@@ -256,13 +256,11 @@ public class ExamController implements Serializable {
         this.selectedItem = selectedItem;
         current = selectedItem;
 
- 
- 
-        setExamQuestionsList((List<ExamQuestion>) new ArrayList());
         getExamQuestionsList().addAll(current.getExamQuestionCollection());
         
         
     }
+
 
     /**
      * @return the examQuestionsList
@@ -273,11 +271,17 @@ public class ExamController implements Serializable {
         currentQuestion = eq.getQuestionId();
         return currentQuestion;
 }
+
+  
+    /**
+     * @return the examQuestionsList
+     */
+
     public List<ExamQuestion> getExamQuestionsList() {
         return examQuestionsList;
     }
 
-   
+
     /**
      * @param examQuestionsList the examQuestionsList to set
      */

@@ -35,8 +35,12 @@ INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (5,
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (5,'synapse.',1);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (5,'soma.',0);
 
+<<<<<<< HEAD
 INSERT INTO exam (title, description, exam_date, duration) VALUES ('My first exam', 'Test exam', '2014-12-13', '12:12:02' );
 INSERT INTO exam (title, description, exam_date, duration) VALUES ('My Second exam', 'Second exam', '2014-11-13', '10:12:02' );
+=======
+INSERT INTO exam (title, description, exam_date, duration) VALUES ('My first exam', 'Test exam', '2114-12-13', '12:12:12' );
+>>>>>>> 245f7f9241e7cfa2c1412f9381f1530fe8bca491
 
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 1);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 2);
