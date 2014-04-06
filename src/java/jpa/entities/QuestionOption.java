@@ -35,6 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "QuestionOption.findByOptionText", query = "SELECT q FROM QuestionOption q WHERE q.optionText = :optionText"),
     @NamedQuery(name = "QuestionOption.findByOptionIsanswer", query = "SELECT q FROM QuestionOption q WHERE q.optionIsanswer = :optionIsanswer")})
 public class QuestionOption implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "OPTION_ISANSWER")
+    private int optionIsanswer;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,10 +48,6 @@ public class QuestionOption implements Serializable {
     @Size(max = 255)
     @Column(name = "OPTION_TEXT")
     private String optionText;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "OPTION_ISANSWER")
-    private Serializable optionIsanswer;
     @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID")
     @ManyToOne(optional = false)
     private Question questionId;
@@ -59,7 +59,7 @@ public class QuestionOption implements Serializable {
         this.optionId = optionId;
     }
 
-    public QuestionOption(Integer optionId, Serializable optionIsanswer) {
+    public QuestionOption(Integer optionId, int optionIsanswer) {
         this.optionId = optionId;
         this.optionIsanswer = optionIsanswer;
     }
@@ -84,7 +84,7 @@ public class QuestionOption implements Serializable {
         return optionIsanswer;
     }
 
-    public void setOptionIsanswer(Serializable optionIsanswer) {
+    public void setOptionIsanswer(int optionIsanswer) {
         this.optionIsanswer = optionIsanswer;
     }
 
@@ -120,5 +120,6 @@ public class QuestionOption implements Serializable {
     public String toString() {
         return "jpa.entities.QuestionOption[ optionId=" + optionId + " ]";
     }
+
     
 }
