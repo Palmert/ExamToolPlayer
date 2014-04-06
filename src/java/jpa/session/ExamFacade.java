@@ -6,6 +6,7 @@
 
 package jpa.session;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,4 +30,14 @@ public class ExamFacade extends AbstractFacade<Exam> {
         super(Exam.class);
     }
     
+    public List<Exam> findAllExams() {
+        List<Exam> exams;
+        try {
+           exams = em.createNamedQuery("Exam.findAllExams").getResultList();
+        } catch (Exception e) {
+            exams = null;
+        }
+
+        return exams;
+    }
 }

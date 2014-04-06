@@ -5,6 +5,8 @@ import jpa.entities.util.PaginationHelper;
 import jpa.session.ExamFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -22,13 +24,18 @@ import javax.faces.model.SelectItem;
 public class ExamController implements Serializable {
 
     private Exam current;
+    private Exam selectedItem;
     private DataModel items = null;
     @EJB
     private jpa.session.ExamFacade ejbFacade;
     private PaginationHelper pagination;
-    private int selectedItemIndex;
+    private int selectedItemIndex;        
+    private List<Exam> exams;
+    
+
 
     public ExamController() {
+        exams = new ArrayList();
     }
 
     public Exam getSelected() {
@@ -38,7 +45,23 @@ public class ExamController implements Serializable {
         }
         return current;
     }
+    
+     
+    /**
+     * @return the exams
+     */
+    public List<Exam> getExams() {
+        return ejbFacade.findAllExams();
+    }
 
+    /**
+     * @param exams the exams to set
+     */
+    public void setExams(List<Exam> exams) {
+        this.exams = exams;
+        this.exams = ejbFacade.findAllExams();
+        
+    }
     private ExamFacade getFacade() {
         return ejbFacade;
     }
@@ -189,6 +212,22 @@ public class ExamController implements Serializable {
 
     public Exam getExam(java.lang.Integer id) {
         return ejbFacade.find(id);
+    }
+
+    /**
+     * @return the selectedItem
+     */
+    public Exam getSelectedItem() {
+        return selectedItem;
+    }
+
+    /**
+     * @param selectedItem the selectedItem to set
+     */
+    public void setSelectedItem(Exam selectedItem) {
+        this.selectedItem = selectedItem;
+        current = selectedItem;
+       
     }
 
     @FacesConverter(forClass = Exam.class)
