@@ -39,7 +39,7 @@ CREATE TABLE question_option (
         option_id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
         question_id INTEGER NOT NULL,
         option_text VARCHAR(255),
-        option_isAnswer BOOLEAN NOT NULL,
+        option_isAnswer INTEGER NOT NULL,
         CONSTRAINT question_option_pk PRIMARY KEY ( option_id)
 );
 

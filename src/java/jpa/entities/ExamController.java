@@ -31,6 +31,8 @@ public class ExamController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;        
     private List<Exam> exams;
+   
+    private List<ExamQuestion> examQuestionsList;
     
 
 
@@ -227,7 +229,27 @@ public class ExamController implements Serializable {
     public void setSelectedItem(Exam selectedItem) {
         this.selectedItem = selectedItem;
         current = selectedItem;
-       
+ 
+ 
+        setExamQuestionsList((List<ExamQuestion>) new ArrayList());
+        getExamQuestionsList().addAll(current.getExamQuestionCollection());
+        
+        
+    }
+
+  
+    /**
+     * @return the examQuestionsList
+     */
+    public List<ExamQuestion> getExamQuestionsList() {
+        return examQuestionsList;
+    }
+
+    /**
+     * @param examQuestionsList the examQuestionsList to set
+     */
+    public void setExamQuestionsList(List<ExamQuestion> examQuestionsList) {
+        this.examQuestionsList = examQuestionsList;
     }
 
     @FacesConverter(forClass = Exam.class)
