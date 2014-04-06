@@ -11,7 +11,6 @@ import javax.faces.application.FacesMessage;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import jpa.entities.Users;
 
@@ -47,7 +46,7 @@ public class LoginController implements Serializable {
             return"login";
         }
         isAuthenticated = true;
-        return "about?faces-redirect=true";
+        return "examSelection?faces-redirect=true";
     }
 
     public String doLogin() {
