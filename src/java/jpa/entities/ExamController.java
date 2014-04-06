@@ -24,7 +24,7 @@ import javax.faces.model.SelectItem;
 public class ExamController implements Serializable {
 
     private Exam current;
-    private int selectedItem;
+    private Exam selectedItem;
     private DataModel items = null;
     @EJB
     private jpa.session.ExamFacade ejbFacade;
@@ -217,17 +217,17 @@ public class ExamController implements Serializable {
     /**
      * @return the selectedItem
      */
-    public int getSelectedItem() {
+    public Exam getSelectedItem() {
         return selectedItem;
     }
 
     /**
      * @param selectedItem the selectedItem to set
      */
-    public void setSelectedItem(int selectedItem) {
+    public void setSelectedItem(Exam selectedItem) {
         this.selectedItem = selectedItem;
-        current = getExam(selectedItem);
-        System.out.println(current.getTitle());
+        current = selectedItem;
+       
     }
 
     @FacesConverter(forClass = Exam.class)

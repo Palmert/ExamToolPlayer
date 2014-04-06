@@ -12,11 +12,13 @@
 
             <ui:define name="content">
                 <h:form>
-                    <p:outputLabel for="examSelection" value="Select Exam"/>
-                    <p:selectOneMenu id="examSelection">
-                        <f:selectItems value="#{examSelectionController.exams}" var="exam" itemLabel="#{exam.title}"/>     
-                       
-                    </p:selectOneMenu>
+                    <center>
+                        <p:selectOneMenu id="examSelection" value="#{examController.selectedItem}" style="width:150px" label="Exam Selection">
+                            <f:selectItems value="#{examController.exams}" var="exam" itemLabel="#{exam.title}"/>                      
+                        </p:selectOneMenu>
+                        <br/><br/>
+                        <p:commandButton value="Select Exam" update="examSelection"/>
+                    </center>
                 </h:form>
             </ui:define>
 
