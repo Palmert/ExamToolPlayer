@@ -10,22 +10,28 @@
 
         <ui:composition template="./WEB-INF/templates/template.xhtml">
 
-            <ui:define name="content">
+            <ui:define  name="content">
                 <h:form id="questionForm">
-                    <p:progressBar id="progress" disabled="true" />
+                    <p:progressBar id="progress" displayOnly="true" value="#{examController.percentageComplete}" labelTemplate="{value}%" />
                     <h:outputText value=""/>
                     <p:outputLabel value="Remaining: "/> 
                     <h:outputText id="display" value="#{examController.selected.duration}" >
                         <f:convertDateTime pattern="HH:mm:ss"/>
                     </h:outputText>
                     <br/>
-                     <h:outputText id="question" value="#{examController.currentQuestion.question}"/>
-                
-                     <br/>
-                     <p:commandButton update="question" value="Previous"  action="#{examController.navigateQuestion(0)}"/>
-                    <p:commandButton update="question" value="Next"  action="#{examController.navigateQuestion(1)}"/>
-                    
+                    <h:outputText id="question" value="#{examController.currentQuestion.questionId.question}"/>
+                    <p:selectOneRadio id="options" layout="pageDirection" value="#{examController.currentQuestion.selectedOptionId}" >
+                        <f:selectItems value="#{examController.currentQuestion.questionId.questionOptionCollection}" var="opt" itemLabel="#{opt.optionText}"/>
+                    </p:selectOneRadio>
 
+                    <br/>
+                    <p:commandButton id="previousButton" update="question, options" value="Previous"  actionListener="#{examController.previousQuestion()}"/>
+                    <p:commandButton id="nextButton" rendered="#{!examController.lastQuestion}" update="@this, question, options, progress," value="Next" actionListener="#{examController.nextQuestion()}"></p:commandButton>
+                    
+                    <h:form id="submitForm" rendered="#{examController.lastQuestion}">
+                        <p:commandButton id="submitButton"  value="Submit"  action="/examResults?faces-redirect=true"></p:commandButton>
+                    </h:form>
+                    
                     
                     <p:poll autoStart="true"
                             interval="1"

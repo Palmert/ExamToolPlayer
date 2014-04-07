@@ -19,6 +19,7 @@ CREATE TABLE exam_question (
         exam_question_id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
         exam_id INTEGER NOT NULL,
         question_id INTEGER NOT NULL,
+        selected_option_id INTEGER,
         CONSTRAINT exam_question_pk  PRIMARY KEY ( exam_question_id )
 );
 
@@ -47,6 +48,7 @@ CREATE TABLE question_option (
 
 ALTER TABLE exam_question ADD CONSTRAINT exam_fk_question FOREIGN KEY ( exam_id ) REFERENCES exam( exam_id );
 ALTER TABLE exam_question ADD CONSTRAINT question_fk_exam FOREIGN KEY ( question_id ) REFERENCES question ( question_id );
+ALTER TABLE exam_question ADD CONSTRAINT selected_option_fk FOREIGN KEY ( selected_option_id ) REFERENCES question_option( option_id );
 
 ALTER TABLE question ADD CONSTRAINT question_fk_question_type FOREIGN KEY ( type_id ) REFERENCES question_type ( type_id );
 

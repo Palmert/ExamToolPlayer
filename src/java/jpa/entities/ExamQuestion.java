@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ExamQuestion.findAll", query = "SELECT e FROM ExamQuestion e"),
     @NamedQuery(name = "ExamQuestion.findByExamQuestionId", query = "SELECT e FROM ExamQuestion e WHERE e.examQuestionId = :examQuestionId")})
 public class ExamQuestion implements Serializable {
+    @JoinColumn(name = "SELECTED_OPTION_ID", referencedColumnName = "OPTION_ID")
+    @ManyToOne
+    private QuestionOption selectedOptionId;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -98,6 +101,14 @@ public class ExamQuestion implements Serializable {
     @Override
     public String toString() {
         return "jpa.entities.ExamQuestion[ examQuestionId=" + examQuestionId + " ]";
+    }
+
+    public QuestionOption getSelectedOptionId() {
+        return selectedOptionId;
+    }
+
+    public void setSelectedOptionId(QuestionOption selectedOptionId) {
+        this.selectedOptionId = selectedOptionId;
     }
     
 }

@@ -29,18 +29,21 @@ public class ExamController implements Serializable {
     @EJB
     private jpa.session.ExamFacade ejbFacade;
     private PaginationHelper pagination;
-    private int selectedItemIndex;        
+    private int selectedItemIndex;
     private List<Exam> exams;
-   
+
     private List<ExamQuestion> examQuestionsList;
-    
 
     int currentQuestionIndex;
-    private Question currentQuestion;
+    private ExamQuestion currentQuestion;
+    private int percentageComplete;
+
+    private boolean lastQuestion;
 
     public ExamController() {
         exams = new ArrayList();
-        //currentQuestionIndex = 0;
+        currentQuestionIndex = 0;
+        lastQuestion = false;
     }
 
     public Exam getSelected() {
@@ -56,23 +59,30 @@ public class ExamController implements Serializable {
         current.getDuration().setSeconds(--curr);
     }
 
-    public void navigateQuestion(int dir) {
-        //0 = previous
-        if (dir == 0) {
-            if (currentQuestionIndex == 0) {
-                return;
-            }
-            currentQuestionIndex--;
-            getCurrentQuestion();
+    public void nextQuestion() {
+
+        if (currentQuestionIndex >= current.getExamQuestionCollection().size() - 1) {
+            lastQuestion = true;
+            setPercentageComplete(100);
+           return;
+        }
+        if (percentageComplete != 100) {
+            setPercentageComplete(getPercentageComplete() + (int) (((double) 1 / getExamQuestionsList().size()) * 100));
+        }
+        currentQuestionIndex++;
+        
+        getCurrentQuestion();
+    }
+
+    public void previousQuestion() {
+
+        if (currentQuestionIndex == 0) {
             return;
         }
-        if (dir == 1) {
-            if (currentQuestionIndex == current.getExamQuestionCollection().size()) {
-                return;
-            }
-            currentQuestionIndex++;
-            getCurrentQuestion();
-        }
+        lastQuestion = false;
+        currentQuestionIndex--;
+        getCurrentQuestion();
+
     }
 
     /**
@@ -88,8 +98,9 @@ public class ExamController implements Serializable {
     public void setExams(List<Exam> exams) {
         this.exams = exams;
         this.exams = ejbFacade.findAllExams();
-        
+
     }
+
     private ExamFacade getFacade() {
         return ejbFacade;
     }
@@ -256,36 +267,58 @@ public class ExamController implements Serializable {
         this.selectedItem = selectedItem;
         current = selectedItem;
         examQuestionsList = new ArrayList();
-        getExamQuestionsList().addAll(current.getExamQuestionCollection());    
-        
-    }
+        getExamQuestionsList().addAll(current.getExamQuestionCollection());
 
+    }
 
     /**
      * @return the examQuestionsList
      * @return the currentQuestion
      */
-    public Question getCurrentQuestion() {
-        ExamQuestion eq = (ExamQuestion) getSelectedItem().getExamQuestionCollection().toArray()[currentQuestionIndex];
-        currentQuestion = eq.getQuestionId();
-        return currentQuestion;
-}
+    public ExamQuestion getCurrentQuestion() {
+        return (ExamQuestion) getSelectedItem().getExamQuestionCollection().toArray()[currentQuestionIndex];
+    }
 
-  
     /**
      * @return the examQuestionsList
      */
-
     public List<ExamQuestion> getExamQuestionsList() {
         return examQuestionsList;
     }
-
 
     /**
      * @param examQuestionsList the examQuestionsList to set
      */
     public void setExamQuestionsList(List<ExamQuestion> examQuestionsList) {
         this.examQuestionsList = examQuestionsList;
+    }
+
+    /**
+     * @return the percentageComplete
+     */
+    public int getPercentageComplete() {
+        return percentageComplete;
+    }
+
+    /**
+     * @param percentageComplete the percentageComplete to set
+     */
+    public void setPercentageComplete(int percentageComplete) {
+        this.percentageComplete = percentageComplete;
+    }
+
+    /**
+     * @return the lastQuestion
+     */
+    public boolean isLastQuestion() {
+        return lastQuestion;
+    }
+
+    /**
+     * @param lastQuestion the lastQuestion to set
+     */
+    public void setLastQuestion(boolean lastQuestion) {
+        this.lastQuestion = lastQuestion;
     }
 
     @FacesConverter(forClass = Exam.class)
