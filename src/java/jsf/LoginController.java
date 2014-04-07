@@ -58,7 +58,7 @@ public class LoginController implements Serializable {
         this.setPassword("");
         isAuthenticated = false;
 
-        return "login?faces-redirect=true";
+        return "index?faces-redirect=true";
     }
 
     /**

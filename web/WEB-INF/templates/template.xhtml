@@ -8,8 +8,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
-         <h:outputStylesheet name="./css/stripe.css"/>
-         <meta name="author" content="Thom Palmer" />
+        <h:outputStylesheet name="./css/stripe.css"/>
+        <meta name="author" content="Thom Palmer" />
         <title>Exam Tool Player</title>
     </h:head>
 
@@ -17,33 +17,37 @@
 
         <div id="top">
             <h2>
-    <h:outputText value="Exam Tool Player" />
-</h2>
+                <h:outputText value="Exam Tool Player" />
+            </h2>
         </div>
         <div>
             <div id="left">
-                <h:form id="navigationForm">
-    <h:commandLink id="longLink"
-                   action="/index?faces-redirect=true"
-                   title="Login"
-                   value="Login" />
-    <p />
+                <h:form id="navigationForm" rendered="#{!loginController.isAuthenticated}">
+                    <h:commandLink id="longLink"
+                                   action="/index?faces-redirect=true"
+                                   title="#{msgs.login}"
+                                   value="Login" />
+                    <p />
 
- 
-    <h:commandLink id="aboutLink"
-                   action="/about?faces-redirect=true"
-                   title="About"
-                   value="About" />
-</h:form>
+
+                    <h:commandLink id="aboutLink"
+                                   action="/about?faces-redirect=true"
+                                   title="#{msgs.about}"
+                                   value="About" />
+                </h:form>
+                <h:form rendered="#{loginController.isAuthenticated}">
+                    <h:commandLink action="#{loginController.doLogout()}"
+                                   value="#{msgs.logout}" />
+                </h:form>
             </div>
             <div id="content" class="left_content">
                 <ui:insert name="content">Content</ui:insert>
             </div>
         </div>
         <div id="bottom">
-           <h6>
-   Thom Palmer (palm0116) - Winter 2014
-</h6>
+            <h6>
+                Thom Palmer (palm0116) &amp; Chris Whitten (whit0536)- Winter 2014
+            </h6>
         </div>
 
     </h:body>

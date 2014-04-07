@@ -11,7 +11,13 @@
         <ui:composition template="./WEB-INF/templates/template.xhtml">
 
             <ui:define  name="content">
-                <h:form id="questionForm">
+                <h:form rendered="#{!loginController.isAuthenticated}" >
+                    <h2>Please login to view this page. </h2>
+                    <p:commandButton action="/index?faces-redirect=true"
+                                     value="Login" />
+                </h:form>
+
+                <h:form rendered="#{loginController.isAuthenticated}" id="questionForm">
                     <p:progressBar id="progress" displayOnly="true" value="#{examController.percentageComplete}" labelTemplate="{value}%" />
                     <h:outputText value=""/>
                     <p:outputLabel value="Remaining: "/> 
@@ -27,12 +33,12 @@
                     <br/>
                     <p:commandButton id="previousButton" update="question, options" value="Previous"  actionListener="#{examController.previousQuestion()}"/>
                     <p:commandButton id="nextButton" rendered="#{!examController.lastQuestion}" update="@this, question, options, progress," value="Next" actionListener="#{examController.nextQuestion()}"></p:commandButton>
-                    
+
                     <h:form id="submitForm" rendered="#{examController.lastQuestion}">
                         <p:commandButton id="submitButton"  value="Submit"  action="/examResults?faces-redirect=true"></p:commandButton>
                     </h:form>
-                    
-                    
+
+
                     <p:poll autoStart="true"
                             interval="1"
                             listener="#{examController.handleTimer()}"

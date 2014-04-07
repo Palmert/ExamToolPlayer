@@ -64,13 +64,13 @@ public class ExamController implements Serializable {
         if (currentQuestionIndex >= current.getExamQuestionCollection().size() - 1) {
             lastQuestion = true;
             setPercentageComplete(100);
-           return;
+            return;
         }
         if (percentageComplete != 100) {
             setPercentageComplete(getPercentageComplete() + (int) (((double) 1 / getExamQuestionsList().size()) * 100));
         }
         currentQuestionIndex++;
-        
+
         getCurrentQuestion();
     }
 
