@@ -9,7 +9,6 @@
     <body>
 
         <ui:composition template="./WEB-INF/templates/template.xhtml">
-
             <ui:define  name="content">
                 <h:form rendered="#{!loginController.isAuthenticated}" >
                     <h2>Please login to view this page. </h2>
@@ -18,6 +17,7 @@
                 </h:form>
 
                 <h:form rendered="#{loginController.isAuthenticated}" id="questionForm">
+                    <p:growl id="growl"  showDetail="true" sticky="true" />  
                     <p:progressBar id="progress" displayOnly="true" value="#{examController.percentageComplete}" labelTemplate="{value}%" />
                     <h:outputText value=""/>
                     <p:outputLabel value="Remaining: "/> 
@@ -26,7 +26,7 @@
                     </h:outputText>
                     <br/>
                     <h:outputText id="question" value="#{examController.currentQuestion.questionId.question}"/>
-                    <p:selectOneRadio id="options" layout="pageDirection" value="#{examController.currentQuestion.selectedOptionId}" >
+                    <p:selectOneRadio  id="options" layout="pageDirection" value="#{examController.currentQuestion.selectedOptionId}" >
                         <f:selectItems value="#{examController.currentQuestion.questionId.questionOptionCollection}" var="opt" itemLabel="#{opt.optionText}"/>
                     </p:selectOneRadio>
 
@@ -40,9 +40,12 @@
 
 
                     <p:poll autoStart="true"
+                            widgetVar="poll"
                             interval="1"
                             listener="#{examController.handleTimer()}"
-                            update="questionForm:display"
+                            update="questionForm:display, questionForm:growl"
+                            stop="#{examController.timeExpired}"
+                                                       
                             />
                 </h:form>
             </ui:define>

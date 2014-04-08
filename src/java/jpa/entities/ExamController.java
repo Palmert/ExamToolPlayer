@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -39,6 +40,7 @@ public class ExamController implements Serializable {
     private int percentageComplete;
 
     private boolean lastQuestion;
+    private boolean timeExpired;
 
     public ExamController() {
         exams = new ArrayList();
@@ -56,7 +58,15 @@ public class ExamController implements Serializable {
 
     public void handleTimer() {
         int curr = current.getDuration().getSeconds();
+
+        if (current.getDuration().getSeconds() == 0) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Time has expired"));
+            timeExpired = true;
+            return;
+        }
         current.getDuration().setSeconds(--curr);
+
     }
 
     public void nextQuestion() {
@@ -319,6 +329,20 @@ public class ExamController implements Serializable {
      */
     public void setLastQuestion(boolean lastQuestion) {
         this.lastQuestion = lastQuestion;
+    }
+
+    /**
+     * @return the timeExpired
+     */
+    public boolean isTimeExpired() {
+        return timeExpired;
+    }
+
+    /**
+     * @param timeExpired the timeExpired to set
+     */
+    public void setTimeExpired(boolean timeExpired) {
+        this.timeExpired = timeExpired;
     }
 
     @FacesConverter(forClass = Exam.class)
