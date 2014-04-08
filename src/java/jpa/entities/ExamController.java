@@ -25,6 +25,7 @@ public class ExamController implements Serializable {
 
     private Exam current;
     private Exam selectedItem;
+    private String nextValue = "Next";
     private DataModel items = null;
     @EJB
     private jpa.session.ExamFacade ejbFacade;
@@ -59,28 +60,35 @@ public class ExamController implements Serializable {
         current.getDuration().setSeconds(--curr);
     }
 
-    public void nextQuestion() {
-
-        if (currentQuestionIndex >= current.getExamQuestionCollection().size() - 1) {
-            lastQuestion = true;
-            setPercentageComplete(100);
-           return;
-        }
-        if (percentageComplete != 100) {
+    public void updateProgress() {
+        if (percentageComplete != 100 && currentQuestion.getSelectedOptionId() == null) {
             setPercentageComplete(getPercentageComplete() + (int) (((double) 1 / getExamQuestionsList().size()) * 100));
         }
-        currentQuestionIndex++;
-        
+
+    }
+
+    public void nextQuestion() {
+        if (currentQuestionIndex < current.getExamQuestionCollection().size() - 1) {
+            currentQuestionIndex++;
+        }
+        if (currentQuestionIndex >= current.getExamQuestionCollection().size() - 1) {
+            lastQuestion = true;
+            setNextValue("Grade Exam");
+            return;
+        }
         getCurrentQuestion();
+
     }
 
     public void previousQuestion() {
-
+        
         if (currentQuestionIndex == 0) {
             return;
         }
-        lastQuestion = false;
         currentQuestionIndex--;
+        lastQuestion = false;
+        setNextValue("Next");
+
         getCurrentQuestion();
 
     }
@@ -276,7 +284,8 @@ public class ExamController implements Serializable {
      * @return the currentQuestion
      */
     public ExamQuestion getCurrentQuestion() {
-        return (ExamQuestion) getSelectedItem().getExamQuestionCollection().toArray()[currentQuestionIndex];
+        currentQuestion = (ExamQuestion) getSelectedItem().getExamQuestionCollection().toArray()[currentQuestionIndex];
+        return currentQuestion;
     }
 
     /**
@@ -319,6 +328,20 @@ public class ExamController implements Serializable {
      */
     public void setLastQuestion(boolean lastQuestion) {
         this.lastQuestion = lastQuestion;
+    }
+
+    /**
+     * @return the nextValue
+     */
+    public String getNextValue() {
+        return nextValue;
+    }
+
+    /**
+     * @param nextValue the nextValue to set
+     */
+    public void setNextValue(String nextValue) {
+        this.nextValue = nextValue;
     }
 
     @FacesConverter(forClass = Exam.class)
