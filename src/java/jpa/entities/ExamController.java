@@ -67,6 +67,7 @@ public class ExamController implements Serializable {
             return;
         }
         current.getDuration().setSeconds(--curr);
+
     }
 
     public void updateProgress() {
@@ -91,11 +92,10 @@ public class ExamController implements Serializable {
     }
 
     public void previousQuestion() {
-
+        
         if (currentQuestionIndex == 0) {
             return;
         }
-     
         currentQuestionIndex--;
         lastQuestion = false;
         setNextValue("Next");
@@ -354,8 +354,7 @@ public class ExamController implements Serializable {
     public void setNextValue(String nextValue) {
         this.nextValue = nextValue;
     }
-
- /**
+    /**
      * @return the timeExpired
      */
     public boolean isTimeExpired() {

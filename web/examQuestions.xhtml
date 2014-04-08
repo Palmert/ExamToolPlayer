@@ -10,6 +10,7 @@
 
         <ui:composition template="./WEB-INF/templates/template.xhtml">
             <ui:define  name="content">
+
                 <h:form rendered="#{!loginController.isAuthenticated}" >
                     <h2>Please login to view this page. </h2>
                     <p:commandButton action="/index?faces-redirect=true"
@@ -25,14 +26,17 @@
                         <f:convertDateTime pattern="HH:mm:ss"/>
                     </h:outputText>
                     <br/>
+
                     <h:outputText id="question"  value="#{examController.currentQuestion.questionId.question}"/>
                     <p:selectOneRadio id="options" valueChangeListener="#{examController.updateProgress()}" layout="pageDirection" value="#{examController.currentQuestion.selectedOptionId}" >
+
                         <f:selectItems value="#{examController.currentQuestion.questionId.questionOptionCollection}" var="opt" itemLabel="#{opt.optionText}"/>
                      <p:ajax update="progress,test"/>
                     </p:selectOneRadio>
                   
                     
                     <br/>
+
                     <p:panel id="test">
                     <p:commandButton id="previousButton" ajax="true" update="question, options, nextButton" value="Previous"  actionListener="#{examController.previousQuestion()}">
                         <p:ajax update="test"/>
@@ -59,13 +63,14 @@
                   
                     
                     
+
                     <p:poll autoStart="true"
                             widgetVar="poll"
                             interval="1"
                             listener="#{examController.handleTimer()}"
                             update="questionForm:display, questionForm:growl"
-                            stop="#{examController.timeExpired}"
-                                                       
+                            stop="#{examController.timeExpired}"                                                    
+
                             />
                 </h:form>
             </ui:define>
