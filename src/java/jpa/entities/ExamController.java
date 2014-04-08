@@ -30,6 +30,7 @@ public class ExamController implements Serializable {
     private DataModel items = null;
     @EJB
     private jpa.session.ExamFacade ejbFacade;
+    private jpa.session.QuestionOptionFacade optionFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private List<Exam> exams;
@@ -60,7 +61,7 @@ public class ExamController implements Serializable {
     public void handleTimer() {
         int curr = current.getDuration().getSeconds();
 
-        if (current.getDuration().getSeconds() == 0) {
+        if (current.getDuration().getHours() == 0 && current.getDuration().getMinutes() == 0 && current.getDuration().getSeconds() == 0) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Time has expired"));
             timeExpired = true;
@@ -318,6 +319,19 @@ public class ExamController implements Serializable {
      */
     public int getPercentageComplete() {
         return percentageComplete;
+    }
+    
+    public String getCorrectOption(Question question) {
+       
+        for(QuestionOption qOption:question.getQuestionOptionCollection())
+        {
+            if (qOption.getOptionIsanswer() == 1){
+                
+                return qOption.getOptionText();                
+            }
+        }      
+        
+        return null;
     }
 
     /**

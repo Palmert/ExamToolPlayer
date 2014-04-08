@@ -85,7 +85,7 @@ public class QuestionOption implements Serializable {
         this.optionText = optionText;
     }
 
-    public Serializable getOptionIsanswer() {
+    public int getOptionIsanswer() {
         return optionIsanswer;
     }
 

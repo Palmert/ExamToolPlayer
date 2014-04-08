@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -10,11 +11,18 @@
 
             <ui:define name="content">
                 <p:dataList value="#{examController.selectedItem.examQuestionCollection}" var="examQuestion" type="definition" >
-                   #{examQuestion.questionId.question}
-                    <p:dataList value="#{examQuestion.questionId.questionOptionCollection}"  var="questionOptions">
-                        #{questionOptions.optionText}
+                    <b>Question 1#{examQuestion.questionId.questionId}</b> 
+                   <hr/>
+                   <f:facet name="description">
+                        #{examQuestion.questionId.question}
+                        <br/>
+                        
+                           <p style="text-indent: 1em"> Selected Answer: #{examQuestion.selectedOptionId.optionText}</p>
+                           <p style="text-indent: 1em"> Correct Answer: #{examController.getCorrectOption(examQuestion.questionId)}</p>
+                        
+                    </f:facet>
                     
-                    </p:dataList>
+                    
                 </p:dataList>
             </ui:define>
 
