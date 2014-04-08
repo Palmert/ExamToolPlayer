@@ -12,31 +12,53 @@
 
             <ui:define  name="content">
                 <h:form id="questionForm">
-                    <p:progressBar id="progress" displayOnly="true" value="#{examController.percentageComplete}" labelTemplate="{value}%" />
+                  
+                    <p:progressBar id="progress" ajax="true" displayOnly="true"  value="#{examController.percentageComplete}" labelTemplate="{value}%" />
                     <h:outputText value=""/>
                     <p:outputLabel value="Remaining: "/> 
                     <h:outputText id="display" value="#{examController.selected.duration}" >
                         <f:convertDateTime pattern="HH:mm:ss"/>
                     </h:outputText>
                     <br/>
-                    <h:outputText id="question" value="#{examController.currentQuestion.questionId.question}"/>
-                    <p:selectOneRadio id="options" layout="pageDirection" value="#{examController.currentQuestion.selectedOptionId}" >
+                    <h:outputText id="question"  value="#{examController.currentQuestion.questionId.question}"/>
+                    <p:selectOneRadio id="options" valueChangeListener="#{examController.updateProgress()}" layout="pageDirection" value="#{examController.currentQuestion.selectedOptionId}" >
                         <f:selectItems value="#{examController.currentQuestion.questionId.questionOptionCollection}" var="opt" itemLabel="#{opt.optionText}"/>
+                     <p:ajax update="progress,test"/>
                     </p:selectOneRadio>
-
-                    <br/>
-                    <p:commandButton id="previousButton" update="question, options" value="Previous"  actionListener="#{examController.previousQuestion()}"/>
-                    <p:commandButton id="nextButton" rendered="#{!examController.lastQuestion}" update="@this, question, options, progress," value="Next" actionListener="#{examController.nextQuestion()}"></p:commandButton>
+                  
                     
-                    <h:form id="submitForm" rendered="#{examController.lastQuestion}">
-                        <p:commandButton id="submitButton"  value="Submit"  action="/examResults?faces-redirect=true"></p:commandButton>
-                    </h:form>
+                    <br/>
+                    <p:panel id="test">
+                    <p:commandButton id="previousButton" ajax="true" update="question, options, nextButton" value="Previous"  actionListener="#{examController.previousQuestion()}">
+                        <p:ajax update="test"/>
+                    </p:commandButton>    
+                    <p:commandButton id="nextButton" rendered="#{!examController.lastQuestion}" ajax="true" update="@this, question, options, progress," value="#{examController.nextValue}" action="#{examController.nextQuestion()}">
+                    </p:commandButton>
+                    
+                     
+                     <p:commandButton id="submitButton" rendered="#{examController.lastQuestion}" onclick="cd.show()"  value="#{examController.nextValue}" >
+                    </p:commandButton>
+                    
+                    
+                    <p:confirmDialog  message="Are you want to submit this Exam?"
+                                    header="Submission Confirmation" severity="alert" 	 	 
+                                    widgetVar="cd">
+
+                        <p:commandButton value="Submit Exam" action="examResults?faces-redirect=true"
+                                             oncomplete="cd.hide()"/>
+                    <p:commandButton value="Not Yet" onclick="cd.hide()" type="button" /> 
+
+                    </p:confirmDialog>
+                        </p:panel>
+                    
+                  
                     
                     
                     <p:poll autoStart="true"
                             interval="1"
                             listener="#{examController.handleTimer()}"
                             update="questionForm:display"
+                            
                             />
                 </h:form>
             </ui:define>
