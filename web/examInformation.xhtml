@@ -11,7 +11,12 @@
         <ui:composition template="./WEB-INF/templates/template.xhtml">
 
             <ui:define name="content">
-                <h:form>
+                <h:form rendered="#{!loginController.isAuthenticated}" >
+                    <h2>Please login to view this page. </h2>
+                    <p:commandButton action="/index?faces-redirect=true"
+                                     value="Login" />
+                </h:form>
+                <h:form rendered="#{loginController.isAuthenticated}">
                     <h:panelGrid columns="2">
                         <p:outputLabel value="#{bundle.ViewExamLabel_examId}"/>
                         <p:outputLabel value="#{examController.selected.examId}" title="#{bundle.ViewExamTitle_examId}"/>

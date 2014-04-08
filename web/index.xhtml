@@ -15,9 +15,8 @@
         <ui:composition template="./WEB-INF/templates/template.xhtml">
 
             <ui:define name="content">
-                <h:form>
-                    <center><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/System.html"
-                               target="_blank">User Login</a>
+                <h:form id="loginForm">
+                    <center><h:outputText value="#{msgs.userLogin}"/>
                         <p>&nbsp;</p>
                         <p:outputLabel for="loginName">User Name</p:outputLabel>
                             <br/>
@@ -36,30 +35,6 @@
             </ui:define>
 
         </ui:composition>
-
-        <br />
-        <h:link outcome="/users/List" value="Show All Users Items"/>
-        <br />
-        <h:link outcome="/exam/List" value="Show All Exam Items"/>
-        <br />
-        <h:link outcome="/exam/List" value="Show All Exam Items"/>
-        <br />
-        <h:link outcome="/examQuestion/List" value="Show All ExamQuestion Items"/>
-        <br />
-        <h:link outcome="/question/List" value="Show All Question Items"/>
-        <br />
-        <h:link outcome="/questionOption/List" value="Show All QuestionOption Items"/>
-        <br />
-        <h:link outcome="/questionType/List" value="Show All QuestionType Items"/>
-        <br />
-        <h:link outcome="/users/List" value="Show All Users Items"/>
     </body>
-
-
-
-
-
-
-
 
 </html>

@@ -39,11 +39,10 @@ public class LoginController implements Serializable {
 // retrieve the account from the db
         Users loginAccount = ejbFacade.findUserByNameAndPassword(username, password);
 
-        if(loginAccount == null)
-        {
+        if (loginAccount == null) {
             message = new FacesMessage("Invalid username or password");
             context.addMessage("password", message);
-            return"login";
+            return "index";
         }
         isAuthenticated = true;
         return "examSelection?faces-redirect=true";
@@ -58,7 +57,7 @@ public class LoginController implements Serializable {
         this.setPassword("");
         isAuthenticated = false;
 
-        return "login?faces-redirect=true";
+        return "index?faces-redirect=true";
     }
 
     /**

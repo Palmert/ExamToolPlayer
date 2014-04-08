@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jpa.session;
 
 import java.util.List;
+import java.util.TimeZone;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +18,7 @@ import jpa.entities.Exam;
  */
 @Stateless
 public class ExamFacade extends AbstractFacade<Exam> {
+
     @PersistenceContext(unitName = "ExamToolPlayerPU")
     private EntityManager em;
 
@@ -29,15 +30,15 @@ public class ExamFacade extends AbstractFacade<Exam> {
     public ExamFacade() {
         super(Exam.class);
     }
-    
+
     public List<Exam> findAllExams() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         List<Exam> exams;
         try {
-           exams = em.createNamedQuery("Exam.findAllExams").getResultList();
+            exams = em.createNamedQuery("Exam.findAllExams").getResultList();
         } catch (Exception e) {
             exams = null;
         }
-
         return exams;
     }
 }
