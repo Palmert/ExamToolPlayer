@@ -29,9 +29,6 @@ public class LoginController implements Serializable {
     private String username;
 
     public String doAuthenticate() {
-        FacesMessage message;
-
-        FacesContext context = FacesContext.getCurrentInstance();
 
 // assume authentication will fail
         isAuthenticated = false;
@@ -40,9 +37,12 @@ public class LoginController implements Serializable {
         Users loginAccount = ejbFacade.findUserByNameAndPassword(username, password);
 
         if (loginAccount == null) {
+            FacesMessage message;
+
+            FacesContext context = FacesContext.getCurrentInstance();
             message = new FacesMessage("Invalid username or password");
-            context.addMessage("password", message);
-            return "index";
+            context.addMessage("loginName", message);
+            return "/index";
         }
         isAuthenticated = true;
         return "examSelection?faces-redirect=true";
