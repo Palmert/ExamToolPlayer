@@ -1,24 +1,30 @@
 package jpa.entities;
 
+import java.io.IOException;
 import jpa.entities.util.JsfUtil;
 import jpa.entities.util.PaginationHelper;
 import jpa.session.ExamFacade;
 
 import java.io.Serializable;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import org.primefaces.context.RequestContext;
 
 @Named("examController")
 @SessionScoped
@@ -62,8 +68,8 @@ public class ExamController implements Serializable {
         int curr = current.getDuration().getSeconds();
 
         if (current.getDuration().getHours() == 0 && current.getDuration().getMinutes() == 0 && current.getDuration().getSeconds() == 0) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Time has expired"));
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("expired.show();");
             timeExpired = true;
             return;
         }
@@ -93,7 +99,7 @@ public class ExamController implements Serializable {
     }
 
     public void previousQuestion() {
-        
+
         if (currentQuestionIndex == 0) {
             return;
         }
@@ -320,17 +326,17 @@ public class ExamController implements Serializable {
     public int getPercentageComplete() {
         return percentageComplete;
     }
-    
+
     public String getCorrectOption(Question question) {
-       
+
         for(QuestionOption qOption:question.getQuestionOptionCollection())
         {
             if (qOption.getOptionIsanswer() == 1){
-                
-                return qOption.getOptionText();                
+
+                return qOption.getOptionText();
             }
-        }      
-        
+        }
+
         return null;
     }
 
@@ -368,6 +374,7 @@ public class ExamController implements Serializable {
     public void setNextValue(String nextValue) {
         this.nextValue = nextValue;
     }
+
     /**
      * @return the timeExpired
      */
