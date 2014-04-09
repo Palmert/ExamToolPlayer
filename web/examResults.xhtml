@@ -3,30 +3,56 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
         <ui:composition template="./WEB-INF/templates/template.xhtml">
 
             <ui:define name="content">
+                <p:panelGrid columns="2">
+                    <h:outputLabel for="examTitle" value="Test"  style="font-weight: bold" />
+                    <h:outputText id="examTitle" value ="#{examController.selectedItem.title}" />
+                    
+                    <h:outputLabel for="user" value="User" style="font-weight: bold"/>
+                    <h:outputText id="user" value ="#{loginController.username}" />
+                    
+                    <h:outputLabel for="attemptScore" value="Attempt Score" style="font-weight: bold"/>
+                    <h:outputText id="attempScore" value ="#{examController.amountCorrect} out of #{examController.selectedItem.examQuestionCollection.size()} points"/>
+                    
+                    <h:outputLabel for="attemptP" value="Grade %" style="font-weight: bold"/>
+                    <h:outputText id="attempP" value ="#{examController.amountCorrect/examController.selectedItem.examQuestionCollection.size()*100}%"/>
+                    
+                    <h:outputLabel for="gradeLetter" value="Grade Letter" style="font-weight: bold"/>
+                    <h:outputText id="gradeLetter" value ="#{examController.calculateGradeLetter(examController.amountCorrect/examController.selectedItem.examQuestionCollection.size()*100)}"/>
+                    
+                    
+                </p:panelGrid>
+
+           
                 <p:dataList value="#{examController.selectedItem.examQuestionCollection}" var="examQuestion" type="definition" >
-                    <b>Question 1#{examQuestion.questionId.questionId}</b> 
-                   <hr/>
-                   <f:facet name="description">
+                    <b style="float: left">Question #{examController.countQuestions()}</b>
+                    <b style="float:right"> #{examQuestion.selectedOptionId.optionText.compareTo(examController.getCorrectOption(examQuestion.questionId)) == 0 ? '1' : '0'} out of 1 points </b>
+                    <hr style="clear: both"/>
+                    <f:facet name="description">
                         #{examQuestion.questionId.question}
                         <br/>
                         
-                           <p style="text-indent: 1em"> Selected Answer: #{examQuestion.selectedOptionId.optionText}</p>
-                           <p style="text-indent: 1em"> Correct Answer: #{examController.getCorrectOption(examQuestion.questionId)}</p>
-                        
+                        <p style="text-indent: 1em"> Selected Answer: <p:graphicImage name="#{examQuestion.selectedOptionId.optionText.compareTo(examController.getCorrectOption(examQuestion.questionId)) == 0 ? 'images/check.gif' : 'images/x.gif'}"/>
+                           <p:graphicImage name="#{examQuestion.selectedOptionId.optionText.compareTo(examController.getCorrectOption(examQuestion.questionId)) == 0 ? 'images/grade-correct_u.gif' : 'images/grade-incorrect_u.gif'}" style="float: left"/><br/><i style="margin-left: 120px">#{examQuestion.selectedOptionId.optionText == null ? "No answer selected" : examQuestion.selectedOptionId.optionText}</i></p>
+                        <p style="text-indent: 4em"> Correct Answer: <p:graphicImage name="images/check.gif"/>
+                            <br/><i style="margin-left: 154px">#{examController.getCorrectOption(examQuestion.questionId)}</i></p>
+
                     </f:facet>
-                    
-                    
+
+
                 </p:dataList>
-            </ui:define>
 
-        </ui:composition>
+               
+        </ui:define>
 
-    </body>
+    </ui:composition>
+
+</body>
 </html>

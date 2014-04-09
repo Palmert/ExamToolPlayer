@@ -19,6 +19,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import jsf.LoginController;
 
 @Named("examController")
 @SessionScoped
@@ -28,12 +29,14 @@ public class ExamController implements Serializable {
     private Exam selectedItem;
     private String nextValue = "Next";
     private DataModel items = null;
+    private int questionNumber = 0;
     @EJB
     private jpa.session.ExamFacade ejbFacade;
     private jpa.session.QuestionOptionFacade optionFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private List<Exam> exams;
+    private List examResultsInfo;
 
     private List<ExamQuestion> examQuestionsList;
 
@@ -56,6 +59,79 @@ public class ExamController implements Serializable {
             selectedItemIndex = -1;
         }
         return current;
+    }
+
+    public int getAmountCorrect() {
+        int totalCorrect = 0;
+        for (ExamQuestion questions : current.getExamQuestionCollection()) {
+            for (QuestionOption option : questions.getQuestionId().getQuestionOptionCollection()) {
+                if (questions.getSelectedOptionId() == null) {
+
+                } else if (questions.getSelectedOptionId().getOptionId() == option.getOptionId() && option.getOptionIsanswer() == 1) {
+                    totalCorrect++;
+                }
+
+            }
+        }
+        return totalCorrect;
+    }
+
+    public List generateExamResultsInfo(String user) {
+        int totalCorrect = 0;
+        examResultsInfo = new ArrayList();
+        examResultsInfo.add(selectedItem.getTitle());
+        examResultsInfo.add(user);
+
+        for (ExamQuestion questions : current.getExamQuestionCollection()) {
+            for (QuestionOption option : questions.getQuestionId().getQuestionOptionCollection()) {
+                if (questions.getSelectedOptionId() == null) {
+                    examResultsInfo.add(0);
+                } else if (questions.getSelectedOptionId().getOptionId() == option.getOptionId() && option.getOptionIsanswer() == 1) {
+                    examResultsInfo.add(1);
+                    totalCorrect++;
+
+                } else if (questions.getSelectedOptionId().getOptionId() != option.getOptionId() && option.getOptionIsanswer() == 1) {
+                    examResultsInfo.add(0);
+                }
+
+            }
+        }
+        examResultsInfo.add(totalCorrect);
+        int gradePercentage = (totalCorrect / current.getExamQuestionCollection().size() - 1) * 100;
+        examResultsInfo.add(gradePercentage);
+        examResultsInfo.add(calculateGradeLetter(gradePercentage));
+        return examResultsInfo;
+
+    }
+
+    public int countQuestions() {
+        return ++questionNumber;
+    }
+
+    public String calculateGradeLetter(int gradePercentage) {
+        if (gradePercentage > 90) {
+            return "A+";
+        }
+        if (gradePercentage < 90 && gradePercentage > 85) {
+            return "A";
+        }
+        if (gradePercentage < 85 && gradePercentage > 80) {
+            return "A-";
+        }
+        if (gradePercentage < 80 && gradePercentage > 75) {
+            return "B+";
+        }
+        if (gradePercentage < 75 && gradePercentage > 70) {
+            return "B";
+        }
+        if (gradePercentage < 70 && gradePercentage > 65) {
+            return "C+";
+        }
+        if (gradePercentage < 65 && gradePercentage > 60) {
+            return "C";
+        }
+
+        return "F";
     }
 
     public void handleTimer() {
@@ -93,7 +169,7 @@ public class ExamController implements Serializable {
     }
 
     public void previousQuestion() {
-        
+
         if (currentQuestionIndex == 0) {
             return;
         }
@@ -320,17 +396,15 @@ public class ExamController implements Serializable {
     public int getPercentageComplete() {
         return percentageComplete;
     }
-    
+
     public String getCorrectOption(Question question) {
-       
-        for(QuestionOption qOption:question.getQuestionOptionCollection())
-        {
-            if (qOption.getOptionIsanswer() == 1){
-                
-                return qOption.getOptionText();                
+
+        for (QuestionOption qOption : question.getQuestionOptionCollection()) {
+            if (qOption.getOptionIsanswer() == 1) {
+                return qOption.getOptionText();
             }
-        }      
-        
+        }
+
         return null;
     }
 
@@ -368,6 +442,7 @@ public class ExamController implements Serializable {
     public void setNextValue(String nextValue) {
         this.nextValue = nextValue;
     }
+
     /**
      * @return the timeExpired
      */
@@ -380,6 +455,20 @@ public class ExamController implements Serializable {
      */
     public void setTimeExpired(boolean timeExpired) {
         this.timeExpired = timeExpired;
+    }
+
+    /**
+     * @return the examResultsInfo
+     */
+    public List getExamResultsInfo() {
+        return examResultsInfo;
+    }
+
+    /**
+     * @param examResultsInfo the examResultsInfo to set
+     */
+    public void setExamResultsInfo(List examResultsInfo) {
+        this.examResultsInfo = examResultsInfo;
     }
 
     @FacesConverter(forClass = Exam.class)
