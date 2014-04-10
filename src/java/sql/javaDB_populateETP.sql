@@ -4,7 +4,7 @@ INSERT INTO question_type (description) VALUES ('5 Distractors');
 
 INSERT INTO users (user_name, password) VALUES ('admin','admin');
 
-# Questions with 4 distractors
+--Questions with 4 distractors
 INSERT INTO question (type_id, question) VALUES (2,'The main function of myelin is to:');
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (1,'form a protective coating over nerve axons.',1);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (1,'affect the speed of nerve impulses.',0);
@@ -65,7 +65,7 @@ INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (10
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (10,'2',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (10,'none of the above',0);
 
-INSERT INTO question (type_id, question) VALUES (2,'What\'s the bes game on the google play store?');
+INSERT INTO question (type_id, question) VALUES (2,'What is the best game on the google play store?');
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (11,'Clash of the clans',1);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (11,'Candy crush',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (11,'Netflix',0);
@@ -89,7 +89,7 @@ INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (14
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (14,'19',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (14,'25',1);
 
-INSERT INTO question (type_id, question) VALUES (2,'What\'s the best type of version control?');
+INSERT INTO question (type_id, question) VALUES (2,'What is the best type of version control?');
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (15,'SVN',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (15,'CVS',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (15,'DropBox',0);
@@ -101,7 +101,7 @@ INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (15
 
 
 
-# True or false questions
+--True or false questions
 INSERT INTO question (type_id, question) VALUES (1,'Java is amazing');
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (16,'True',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (16,'False',1);
@@ -110,8 +110,8 @@ INSERT INTO question (type_id, question) VALUES (1,'JSF is amazing');
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (17,'True.',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (17,'False',1);
 
-# Questions with 5 distractors
-INSERT INTO question (type_id, question) VALUES (3,'Svillen\'s favorite mythical creatureis a?');
+--Questions with 5 distractors
+INSERT INTO question (type_id, question) VALUES (3,'What is the favorite mythical creature of Svillen?');
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (31,'Dragon.',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (31,'Platypus',0);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (31,'Unicorn.',0);
@@ -140,7 +140,7 @@ INSERT INTO exam_question (exam_id, question_id) VALUES (1, 14);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 15);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 16);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 17);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 18);
+/*INSERT INTO exam_question (exam_id, question_id) VALUES (1, 18);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 19);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 20);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 21);
@@ -173,7 +173,7 @@ INSERT INTO exam_question (exam_id, question_id) VALUES (1, 47);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 48);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 49);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 50);
-
+*/
 
 
 INSERT INTO exam_question (exam_id, question_id) VALUES (2, 1);

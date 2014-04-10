@@ -1,5 +1,7 @@
 package jpa.entities;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import jpa.entities.util.JsfUtil;
 import jpa.entities.util.PaginationHelper;
 import jpa.session.ExamFacade;
@@ -29,6 +31,7 @@ public class ExamController implements Serializable {
     private String nextValue = "Next";
     private DataModel items = null;
     private int questionNumber = 0;
+    private String examResults = null;
     @EJB
     private jpa.session.ExamFacade ejbFacade;
     private jpa.session.QuestionOptionFacade optionFacade;
@@ -75,32 +78,49 @@ public class ExamController implements Serializable {
         return totalCorrect;
     }
 
-    public List generateExamResultsInfo(String user) {
+    public void generateExamResultsCSV(String user) {
         int totalCorrect = 0;
-        examResultsInfo = new ArrayList();
-        examResultsInfo.add(selectedItem.getTitle());
+        examResults = selectedItem.getTitle() + ",";
+        examResults = examResults.concat(user + ",");
+
         examResultsInfo.add(user);
 
         for (ExamQuestion questions : current.getExamQuestionCollection()) {
             for (QuestionOption option : questions.getQuestionId().getQuestionOptionCollection()) {
                 if (questions.getSelectedOptionId() == null) {
-                    examResultsInfo.add(0);
+                    examResults = examResults.concat(0 + ",");
                 } else if (questions.getSelectedOptionId().getOptionId() == option.getOptionId() && option.getOptionIsanswer() == 1) {
-                    examResultsInfo.add(1);
+                    examResults = examResults.concat(1 + ",");
                     totalCorrect++;
 
                 } else if (questions.getSelectedOptionId().getOptionId() != option.getOptionId() && option.getOptionIsanswer() == 1) {
-                    examResultsInfo.add(0);
+                    examResults = examResults.concat(0 + ",");
                 }
 
             }
         }
-        examResultsInfo.add(totalCorrect);
+        examResults = examResults.concat(totalCorrect + ",");
         int gradePercentage = (totalCorrect / current.getExamQuestionCollection().size() - 1) * 100;
-        examResultsInfo.add(gradePercentage);
-        examResultsInfo.add(calculateGradeLetter(gradePercentage));
-        return examResultsInfo;
-
+        examResults = examResults.concat(gradePercentage + ",");
+        examResults = examResults.concat(calculateGradeLetter(gradePercentage));
+        generateCSV(selectedItem.getTitle(), user);
+    }
+    
+    public void generateCSV(String examTitle, String username){
+        
+        String fileName = examTitle + username + ".csv";
+        
+        try
+	{
+	    FileWriter writer = new FileWriter(fileName);	 
+            writer.append(examResults); 
+	    writer.flush();
+	    writer.close();
+	}
+	catch(IOException e)
+	{
+	     e.printStackTrace();
+	} 
     }
 
     public int countQuestions() {
@@ -108,26 +128,41 @@ public class ExamController implements Serializable {
     }
 
     public String calculateGradeLetter(int gradePercentage) {
-        if (gradePercentage > 90) {
+        if (gradePercentage >= 90) {
             return "A+";
         }
-        if (gradePercentage < 90 && gradePercentage > 85) {
+        if (gradePercentage < 90 && gradePercentage >= 85) {
             return "A";
         }
-        if (gradePercentage < 85 && gradePercentage > 80) {
+        if (gradePercentage < 85 && gradePercentage >= 80) {
             return "A-";
         }
-        if (gradePercentage < 80 && gradePercentage > 75) {
+        if (gradePercentage < 80 && gradePercentage >= 77) {
             return "B+";
         }
-        if (gradePercentage < 75 && gradePercentage > 70) {
+        if (gradePercentage < 77 && gradePercentage >= 73) {
             return "B";
         }
-        if (gradePercentage < 70 && gradePercentage > 65) {
+        if (gradePercentage < 73 && gradePercentage >= 70) {
+            return "B-";
+        }
+        if (gradePercentage < 70 && gradePercentage >= 67) {
             return "C+";
         }
-        if (gradePercentage < 65 && gradePercentage > 60) {
+        if (gradePercentage < 67 && gradePercentage >= 63) {
             return "C";
+        }
+        if (gradePercentage < 63 && gradePercentage >= 60) {
+            return "C-";
+        }
+        if (gradePercentage < 60 && gradePercentage >= 57) {
+            return "D+";
+        }
+        if (gradePercentage < 57 && gradePercentage >= 53) {
+            return "D";
+        }
+        if (gradePercentage < 53 && gradePercentage >= 50) {
+            return "D-";
         }
 
         return "F";
@@ -468,6 +503,20 @@ public class ExamController implements Serializable {
      */
     public void setExamResultsInfo(List examResultsInfo) {
         this.examResultsInfo = examResultsInfo;
+    }
+
+    /**
+     * @return the questionNumber
+     */
+    public int getQuestionNumber() {
+        return questionNumber;
+    }
+
+    /**
+     * @param questionNumber the questionNumber to set
+     */
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
     }
 
     @FacesConverter(forClass = Exam.class)
