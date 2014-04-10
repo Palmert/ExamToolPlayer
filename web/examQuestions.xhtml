@@ -19,50 +19,60 @@
 
                 <h:form rendered="#{loginController.isAuthenticated}" id="questionForm">
                     <p:growl id="growl"  showDetail="true" sticky="true" />  
-                    <p:progressBar id="progress" displayOnly="true" value="#{examController.percentageComplete}" labelTemplate="{value}%" />
-                    <h:outputText value=""/>
-                    <p:outputLabel value="Remaining: "/> 
-                    <h:outputText id="display" value="#{examController.selected.duration}" >
-                        <f:convertDateTime pattern="HH:mm:ss"/>
-                    </h:outputText>
-                    <br/>
 
                     <h:outputText id="question"  value="#{examController.currentQuestion.questionId.question}"/>
                     <p:selectOneRadio id="options" valueChangeListener="#{examController.updateProgress()}" layout="pageDirection" value="#{examController.currentQuestion.selectedOptionId}" >
 
                         <f:selectItems value="#{examController.currentQuestion.questionId.questionOptionCollection}" var="opt" itemLabel="#{opt.optionText}"/>
-                     <p:ajax update="progress,test"/>
+                        <p:ajax update="progress,test"/>
                     </p:selectOneRadio>
-                  
-                    
+
+
                     <br/>
 
                     <p:panel id="test">
-                    <p:commandButton id="previousButton" ajax="true" update="question, options, nextButton" value="Previous"  actionListener="#{examController.previousQuestion()}">
-                        <p:ajax update="test"/>
-                    </p:commandButton>    
-                    <p:commandButton id="nextButton" rendered="#{!examController.lastQuestion}" ajax="true" update="@this, question, options, progress," value="#{examController.nextValue}" action="#{examController.nextQuestion()}">
-                    </p:commandButton>
-                    
-                     
-                     <p:commandButton id="submitButton" rendered="#{examController.lastQuestion}" onclick="cd.show()"  value="#{examController.nextValue}" >
-                    </p:commandButton>
-                    
-                    
-                    <p:confirmDialog  message="Are you want to submit this Exam?"
-                                    header="Submission Confirmation" severity="alert" 	 	 
-                                    widgetVar="cd">
+                        <p:commandButton id="previousButton" ajax="true" update="question, options, nextButton" value="Previous"  actionListener="#{examController.previousQuestion()}">
+                            <p:ajax update="test"/>
+                        </p:commandButton>    
+                        <p:commandButton id="nextButton" rendered="#{!examController.lastQuestion}" ajax="true" update="@this, question, options, progress," value="#{examController.nextValue}" action="#{examController.nextQuestion()}">
+                        </p:commandButton>
 
-                        <p:commandButton value="Submit Exam" action="examResults?faces-redirect=true"
+
+                        <p:commandButton id="submitButton" rendered="#{examController.lastQuestion}" onclick="cd.show()"  value="#{examController.nextValue}" >
+                        </p:commandButton>
+
+
+                        <p:confirmDialog  message="Are you want to submit this Exam?"
+                                          header="Submission Confirmation" severity="alert" 	 	 
+                                          widgetVar="cd">
+
+                            <p:commandButton value="Submit Exam" action="examResults?faces-redirect=true"
                                              oncomplete="cd.hide()"/>
-                    <p:commandButton value="Not Yet" onclick="cd.hide()" type="button" /> 
+                            <p:commandButton value="Not Yet" onclick="cd.hide()" type="button" /> 
 
-                    </p:confirmDialog>
-                        </p:panel>
-                    
-                  
-                    
-                    
+                        </p:confirmDialog>
+
+                        <p:confirmDialog  message="Time has expired!!"
+                                          header="Submission Confirmation" severity="alert" 	 	 
+                                          widgetVar="expired"
+                                          closable="false"
+                                          >
+                            <center>
+                                <p:commandButton value="OK" action="examResults?faces-redirect=true"
+                                                 oncomplete="expired.hide()"
+                                                 />
+                            </center>
+                        </p:confirmDialog>
+                    </p:panel>
+
+                    <p:panel id="progressPanel" header="Progress" collapsed="true" toggleable="true">
+                        <p:progressBar id="progress" displayOnly="true" value="#{examController.percentageComplete}" labelTemplate="{value}%" />
+                        <h:outputText value=""/>
+                        <p:outputLabel value="Remaining: "/> 
+                        <h:outputText id="display" value="#{examController.selected.duration}" >
+                            <f:convertDateTime pattern="HH:mm:ss"/>
+                        </h:outputText>
+                    </p:panel>
 
                     <p:poll autoStart="true"
                             widgetVar="poll"

@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -19,7 +18,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import jsf.LoginController;
+import org.primefaces.context.RequestContext;
 
 @Named("examController")
 @SessionScoped
@@ -138,8 +137,8 @@ public class ExamController implements Serializable {
         int curr = current.getDuration().getSeconds();
 
         if (current.getDuration().getHours() == 0 && current.getDuration().getMinutes() == 0 && current.getDuration().getSeconds() == 0) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Time has expired"));
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("expired.show();");
             timeExpired = true;
             return;
         }

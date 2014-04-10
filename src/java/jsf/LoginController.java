@@ -41,8 +41,8 @@ public class LoginController implements Serializable {
 
         if (loginAccount == null) {
             message = new FacesMessage("Invalid username or password");
-            context.addMessage("password", message);
-            return "index";
+            context.addMessage("content:username", message);
+            return "login";
         }
         isAuthenticated = true;
         return "examSelection?faces-redirect=true";
@@ -57,7 +57,7 @@ public class LoginController implements Serializable {
         this.setPassword("");
         isAuthenticated = false;
 
-        return "index?faces-redirect=true";
+        return "login?faces-redirect=true";
     }
 
     /**
