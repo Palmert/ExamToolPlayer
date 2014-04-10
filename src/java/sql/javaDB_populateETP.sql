@@ -41,6 +41,65 @@ INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (6,
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (6,'Java.',1);
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (6,'Purple',0);
 
+INSERT INTO question (type_id, question) VALUES (2,'Which of the follwing is an HBO show?');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (7,'Game of thrones',1);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (7,'Dexter',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (7,'Homeland',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (7,'Breaking bad',0);
+
+INSERT INTO question (type_id, question) VALUES (2,'What company makes the Play Station console');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (8,'Microsoft',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (8,'Samsung',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (8,'Sony',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (8,'LG',0);
+
+INSERT INTO question (type_id, question) VALUES (2,'Which  coffee shop is located in the E building?');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (9,'Second cup',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (9,'Bridge head',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (9,'Tim Hortons',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (9,'Starbucks',1);
+
+INSERT INTO question (type_id, question) VALUES (2,'Which season of game of thrones started last sunday?');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (10,'3',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (10,'4',1);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (10,'2',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (10,'none of the above',0);
+
+INSERT INTO question (type_id, question) VALUES (2,'What\'s the bes game on the google play store?');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (11,'Clash of the clans',1);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (11,'Candy crush',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (11,'Netflix',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (11,'Facebook',0);
+
+INSERT INTO question (type_id, question) VALUES (2,'Which of the follwing are common house hold appliances?');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (12,'Dishwasher',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (12,'Fridge',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (12,'Stove',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (12,'All of the above',1);
+
+INSERT INTO question (type_id, question) VALUES (2,'Where were fortune cookies invented');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (13,'United States',1);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (13,'Japan',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (13,'China',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (13,'Canada',0);
+
+INSERT INTO question (type_id, question) VALUES (2,'How many medals did Canada get at the Sochi games?');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (14,'22',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (14,'15',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (14,'19',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (14,'25',1);
+
+INSERT INTO question (type_id, question) VALUES (2,'What\'s the best type of version control?');
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (15,'SVN',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (15,'CVS',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (15,'DropBox',0);
+INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (15,'GIT',1);
+
+
+
+
+
+
 
 # True or false questions
 INSERT INTO question (type_id, question) VALUES (1,'Java is amazing');
