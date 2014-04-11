@@ -1,15 +1,23 @@
 package jpa.entities;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jpa.entities.util.JsfUtil;
 import jpa.entities.util.PaginationHelper;
 import jpa.session.ExamFacade;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -20,6 +28,8 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import org.primefaces.context.RequestContext;
 
 @Named("examController")
@@ -78,20 +88,24 @@ public class ExamController implements Serializable {
         return totalCorrect;
     }
 
-    public void generateExamResultsCSV(String user) {
+    public void generateExamResultsCSV() {
+        Map<String, String> params;
+        FacesContext fc = FacesContext.getCurrentInstance();
+        params = fc.getExternalContext().getRequestParameterMap();
+        String user = params.get("user");
         int totalCorrect = 0;
         examResults = selectedItem.getTitle() + ",";
         examResults = examResults.concat(user + ",");
-
-        examResultsInfo.add(user);
 
         for (ExamQuestion questions : current.getExamQuestionCollection()) {
             for (QuestionOption option : questions.getQuestionId().getQuestionOptionCollection()) {
                 if (questions.getSelectedOptionId() == null) {
                     examResults = examResults.concat(0 + ",");
+                    break;
                 } else if (questions.getSelectedOptionId().getOptionId() == option.getOptionId() && option.getOptionIsanswer() == 1) {
                     examResults = examResults.concat(1 + ",");
                     totalCorrect++;
+                    break;
 
                 } else if (questions.getSelectedOptionId().getOptionId() != option.getOptionId() && option.getOptionIsanswer() == 1) {
                     examResults = examResults.concat(0 + ",");
@@ -103,24 +117,48 @@ public class ExamController implements Serializable {
         int gradePercentage = (totalCorrect / current.getExamQuestionCollection().size() - 1) * 100;
         examResults = examResults.concat(gradePercentage + ",");
         examResults = examResults.concat(calculateGradeLetter(gradePercentage));
-        generateCSV(selectedItem.getTitle(), user);
+        createAndServeFile(selectedItem.getTitle().concat(",").concat(user));
     }
-    
-    public void generateCSV(String examTitle, String username){
-        
-        String fileName = examTitle + username + ".csv";
-        
-        try
-	{
-	    FileWriter writer = new FileWriter(fileName);	 
-            writer.append(examResults); 
-	    writer.flush();
-	    writer.close();
-	}
-	catch(IOException e)
-	{
-	     e.printStackTrace();
-	} 
+
+    public void createAndServeFile(String fileName) {
+
+        File file = new File(fileName);
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        PrintWriter writer;
+        try {
+            writer = new PrintWriter(fileName, "UTF-8");
+            writer.println(examResults);
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ExamController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ExamController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+        response.setContentLength((int) file.length());
+        ServletOutputStream out = null;
+        try {
+            FileInputStream input = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            out = response.getOutputStream();
+            int i = 0;
+            while ((i = input.read(buffer)) != -1) {
+                out.write(buffer);
+                out.flush();
+            }
+            FacesContext.getCurrentInstance().getResponseComplete();
+        } catch (IOException err) {
+            err.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException err) {
+                err.printStackTrace();
+            }
+        }
+
     }
 
     public int countQuestions() {

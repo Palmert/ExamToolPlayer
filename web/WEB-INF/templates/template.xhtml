@@ -38,9 +38,6 @@
                 <h:form rendered="#{loginController.isAuthenticated}">
                     <h:commandLink action="#{loginController.doLogout()}"
                                    value="#{msgs.logout}" />
-                    <h:commandLink rendered="#{examController.questionNumber}"
-                                   action="#{examController.generateExamResultsCSV(loginController.username)}"
-                                   value="#{msgs.download}" />
                 </h:form>
             </div>
             <div id="content" class="left_content">
