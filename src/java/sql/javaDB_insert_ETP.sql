@@ -3,6 +3,7 @@ INSERT INTO question_type (description) VALUES ('4 Distractors');
 INSERT INTO question_type (description) VALUES ('5 Distractors');
 
 INSERT INTO users (user_name, password) VALUES ('admin','admin');
+INSERT INTO users (user_name, password) VALUES ('hurdleg','password');
 
 --Questions with 4 distractors
 INSERT INTO question (type_id, question) VALUES (2,'The main function of myelin is to:');
@@ -287,14 +288,21 @@ INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (50
 INSERT INTO question_option (question_id,option_text,option_isAnswer) VALUES (50,'1944',0);
 
 
-INSERT INTO exam (title, description, exam_date, duration) VALUES ('ShortestExam', '1 minute exam with 50 questions', '2014-12-13', '00:00:01' );
+INSERT INTO exam (title, description, exam_date, duration) VALUES ('ShortestExam', '1 minute exam with 50 questions', '2014-12-13', '00:01' );
 INSERT INTO exam (title, description, exam_date, duration) VALUES ('LongestExam', '3 hour exam with 1 question', '2014-11-13', '03:00' );
 
 
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 1);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 2);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 3);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 4);
+--Adding questions to examd
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 13);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 14);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 15);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 25);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 26);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 40);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 41);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 42);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 43);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 27);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 5);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 6);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 7);
@@ -303,9 +311,6 @@ INSERT INTO exam_question (exam_id, question_id) VALUES (1, 9);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 10);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 11);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 12);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 13);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 14);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 15);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 16);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 17);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 18);
@@ -315,9 +320,10 @@ INSERT INTO exam_question (exam_id, question_id) VALUES (1, 21);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 22);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 23);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 24);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 25);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 26);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 27);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 1);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 2);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 3);
+INSERT INTO exam_question (exam_id, question_id) VALUES (1, 4);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 28);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 29);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 30);
@@ -330,10 +336,6 @@ INSERT INTO exam_question (exam_id, question_id) VALUES (1, 36);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 37);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 38);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 39);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 40);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 41);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 42);
-INSERT INTO exam_question (exam_id, question_id) VALUES (1, 43);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 44);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 45);
 INSERT INTO exam_question (exam_id, question_id) VALUES (1, 46);

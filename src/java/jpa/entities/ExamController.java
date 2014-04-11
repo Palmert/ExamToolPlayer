@@ -3,7 +3,6 @@ package jpa.entities;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jpa.entities.util.JsfUtil;
@@ -13,6 +12,7 @@ import jpa.session.ExamFacade;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -49,6 +49,7 @@ public class ExamController implements Serializable {
     private int selectedItemIndex;
     private List<Exam> exams;
     private List examResultsInfo;
+    private Date duration;
 
     private List<ExamQuestion> examQuestionsList;
 
@@ -114,9 +115,9 @@ public class ExamController implements Serializable {
             }
         }
         examResults = examResults.concat(totalCorrect + ",");
-        int gradePercentage = (totalCorrect / current.getExamQuestionCollection().size() - 1) * 100;
-        examResults = examResults.concat(gradePercentage + ",");
-        examResults = examResults.concat(calculateGradeLetter(gradePercentage));
+        double gradePercentage = (getAmountCorrect() / (double)selectedItem.getExamQuestionCollection().size()) *100;
+        examResults = examResults.concat((int)gradePercentage + ",");
+        examResults = examResults.concat(calculateGradeLetter((int) gradePercentage));
         createAndServeFile(selectedItem.getTitle().concat(",").concat(user));
     }
 
@@ -129,9 +130,7 @@ public class ExamController implements Serializable {
             writer = new PrintWriter(fileName, "UTF-8");
             writer.println(examResults);
             writer.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ExamController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
+        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
             Logger.getLogger(ExamController.class.getName()).log(Level.SEVERE, null, ex);
         }
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
@@ -148,14 +147,12 @@ public class ExamController implements Serializable {
             }
             FacesContext.getCurrentInstance().getResponseComplete();
         } catch (IOException err) {
-            err.printStackTrace();
         } finally {
             try {
                 if (out != null) {
                     out.close();
                 }
             } catch (IOException err) {
-                err.printStackTrace();
             }
         }
 
@@ -207,15 +204,18 @@ public class ExamController implements Serializable {
     }
 
     public void handleTimer() {
-        int curr = current.getDuration().getSeconds();
+        if (duration == null) {
+            duration = current.getDuration();
+        }
+        int curr = duration.getSeconds();
 
-        if (current.getDuration().getHours() == 0 && current.getDuration().getMinutes() == 0 && current.getDuration().getSeconds() == 0) {
+        if (duration.getHours() == 0 && duration.getMinutes() == 0 && duration.getSeconds() == 0) {
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("expired.show();");
             timeExpired = true;
             return;
         }
-        current.getDuration().setSeconds(--curr);
+        duration.setSeconds(--curr);
 
     }
 
@@ -253,6 +253,13 @@ public class ExamController implements Serializable {
 
     }
 
+    public void init() {
+        for (Exam e : exams) {
+            e = e;
+        }
+        setExams();
+    }
+
     /**
      * @return the exams
      */
@@ -261,10 +268,9 @@ public class ExamController implements Serializable {
     }
 
     /**
-     * @param exams the exams to set
      */
-    public void setExams(List<Exam> exams) {
-        this.exams = exams;
+    public void setExams() {
+        this.exams = null;
         this.exams = ejbFacade.findAllExams();
 
     }
@@ -441,7 +447,6 @@ public class ExamController implements Serializable {
 
     /**
      * @return the examQuestionsList
-     * @return the currentQuestion
      */
     public ExamQuestion getCurrentQuestion() {
         currentQuestion = (ExamQuestion) getSelectedItem().getExamQuestionCollection().toArray()[currentQuestionIndex];
@@ -555,6 +560,20 @@ public class ExamController implements Serializable {
      */
     public void setQuestionNumber(int questionNumber) {
         this.questionNumber = questionNumber;
+    }
+
+    /**
+     * @return the duration
+     */
+    public Date getDuration() {
+        return duration;
+    }
+
+    /**
+     * @param duration the duration to set
+     */
+    public void setDuration(Date duration) {
+        this.duration = duration;
     }
 
     @FacesConverter(forClass = Exam.class)
